@@ -1,4 +1,6 @@
 package Modelo;
+import Interfaces.Mostrar_Paquetes;
+import Interfaces.ObtenerDestinoPor_id;
 import Vista.Mostrar_Destinos;
 
 class Encargado_Turismo extends Usuario implements Mostrar_Destinos, 

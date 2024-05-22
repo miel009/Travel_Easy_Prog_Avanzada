@@ -1,4 +1,4 @@
-package Modelo;
+package Interfaces;
 
 
 public interface Mostrar_Paquetes {
