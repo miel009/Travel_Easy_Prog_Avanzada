@@ -18,7 +18,8 @@ public class UsuarioControlador implements UserRepository {
     public UsuarioControlador() {
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
-/*
+    
+
     @Override
     public List<Usuario> getAllUsers() {
         List<Usuario> users = new ArrayList<>();
@@ -27,7 +28,8 @@ public class UsuarioControlador implements UserRepository {
             ResultSet resultSet = statement.executeQuery();
        
             while (resultSet.next()) {
-            	Usuario user = new Usuario(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("email"));
+            	Usuario user = new Usuario(resultSet.getString("name"), resultSet.getString("apellido"),resultSet.getInt("dni"),
+            			resultSet.getInt("Id ingreso al sistema"),resultSet.getInt("Id usuario"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -46,7 +48,8 @@ public class UsuarioControlador implements UserRepository {
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                user = new Usuario(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("email"));
+                user = new Usuario(resultSet.getString("name"), resultSet.getString("apellido"),resultSet.getInt("dni"),
+            			resultSet.getInt("Id ingreso al sistema"),resultSet.getInt("Id usuario"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,7 +62,7 @@ public class UsuarioControlador implements UserRepository {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO users (name, email) VALUES (?, ?)");
             statement.setString(1, usuario.getNombre());
-            statement.setString(2, usuario.getEmail());
+            //statement.setString(2, usuario.());
             
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -75,8 +78,8 @@ public class UsuarioControlador implements UserRepository {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET name = ?, email = ? WHERE id = ?");
             statement.setString(1, usuario.getNombre());
-            statement.setString(2, usuario.getEmail());
-            statement.setInt(3, usuario.getId());
+            //statement.setString(2, usuario.getEmail());
+            //statement.setInt(3, usuario.getId());
             
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -104,38 +107,3 @@ public class UsuarioControlador implements UserRepository {
 
 	
 	}
-
-	*/
-
-	@Override
-	public List<Usuario> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Usuario getUserById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addUser(Usuario user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateUser(Usuario user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteUser(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-  
-}

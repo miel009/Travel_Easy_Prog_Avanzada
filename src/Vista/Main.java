@@ -15,6 +15,7 @@ public class Main {
 	//Menu ----> 
 		UsuarioControlador controlador = new UsuarioControlador();
 		
+		
         String[] ingreso = {"Empleado Turismo", "Empleado Vtas", "Salir"};
        
       
@@ -39,8 +40,9 @@ public class Main {
             	}
             }
           // AGREGAR METODO PARA INGRESO- VAlIDACION
-           
-  
+            
+            
+            
             switch (opcionEmpleado) {
                 case 0:
                 	String[] empleado_T = {"Agregar destino","Eliminar destino","Lista de destinos","Lista de paquetes","Modificar","Servicios Adicionales","Salir"};

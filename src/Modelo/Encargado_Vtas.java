@@ -1,15 +1,14 @@
 package Modelo;
-import Interfaces.Mostrar_Paquetes;
-import Interfaces.ObtenerDestinoPor_id;
-import Vista.Mostrar_Destinos;
 
-public class Encargado_Vtas extends Usuario implements Mostrar_Destinos,
-	Mostrar_Paquetes,ObtenerDestinoPor_id{
+import Interfaces.Mostrar_Destinos;
+import Interfaces.Mostrar_Paquetes;
+
+public class Encargado_Vtas extends Usuario {
 	
 	private int id_vta;
 
-	public Encargado_Vtas(String nombre, String apellido, int dni, int id_ingresoSistema, int id_vta) {
-		super(nombre, apellido, dni, id_ingresoSistema);
+	public Encargado_Vtas(String nombre, String apellido, int dni, int id_ingresoSistema, int id_usuario, int id_vta) {
+		super(nombre, apellido, dni, id_ingresoSistema, id_usuario);
 		this.id_vta = id_vta;
 	}
 
@@ -21,11 +20,5 @@ public class Encargado_Vtas extends Usuario implements Mostrar_Destinos,
 		this.id_vta = id_vta;
 	}
 
-	@Override
-	public String toString() {
-		return "Encargado_Vtas [id_vta=" + id_vta + "]";
-	}
-	
-	/*CREAR METODOS*/
 
 }
