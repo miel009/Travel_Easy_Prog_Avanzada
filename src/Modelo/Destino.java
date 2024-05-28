@@ -31,10 +31,8 @@ public class Destino {
 	}
 	
 	public Destino() {
-		//sobrecarga - uso de singleton
 		
-	}
-	
+	}	
 	
 	public int getId_destino() {
 		return id_destino;

@@ -1,8 +1,11 @@
 package Vista;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
+import javax.swing.JOptionPane;
+import Modelo.Destino;
 import Controlador.UsuarioControlador;
+import Interfaces.Mostrar_Destinos;
+import Controlador.DestinosControlador;
 
 public class Main {
 
@@ -14,6 +17,7 @@ public class Main {
 	 
 	//Menu ----> 
 		UsuarioControlador controlador = new UsuarioControlador();
+		DestinosControlador controladorD = new DestinosControlador(); 
 		
 		
         String[] ingreso = {"Empleado Turismo", "Empleado Vtas", "Salir"};
@@ -54,9 +58,25 @@ public class Main {
                         
                        switch (opcionEmpleado_T) {
                             case 0: 
-                            	JOptionPane.showMessageDialog(null, "Agrego destino");
-                            	 
-                            break;
+                            	int id_destino= Integer.parseInt(JOptionPane.showInputDialog("Ingrese id"));
+                            	String nombre = JOptionPane.showInputDialog("Ingrese nombre del destino");
+                            	String descrip = JOptionPane.showInputDialog("Ingrese descripcion");                            	
+                            	String pais = JOptionPane.showInputDialog("Ingrese nombre del pais");
+                            	String zonaGeo = JOptionPane.showInputDialog("Ingrese zona geografica");
+                            	String recomendaciones = JOptionPane.showInputDialog("Ingrese recomendaciones");
+                            	String temporada_ideal = JOptionPane.showInputDialog("Ingrese temporada ideal");
+                            	int rangoEdad= Integer.parseInt(JOptionPane.showInputDialog("Ingrese edad"));
+                            	String transp = JOptionPane.showInputDialog("Ingrese tipo de trasporte");
+                            	String tipoTurismo = JOptionPane.showInputDialog("Ingrese tipo de turismo");
+                            	String serviciosAd = JOptionPane.showInputDialog("Ingrese servicios adicionales");
+                            	
+                            	
+                            	controladorD.addDestino(new Destino(id_destino,nombre,pais,zonaGeo,descrip,recomendaciones,
+                            			temporada_ideal,rangoEdad,transp,tipoTurismo,serviciosAd));
+                			
+                            
+                				break;
+                				
                             case 1:
                             	JOptionPane.showMessageDialog(null, "Elimino destino");
                                

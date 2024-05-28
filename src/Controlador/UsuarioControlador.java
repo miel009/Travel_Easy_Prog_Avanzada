@@ -69,7 +69,7 @@ public class UsuarioControlador implements UserRepository {
                 System.out.println("Usuario insertado exitosamente");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();           
         }
     }
 
