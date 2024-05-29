@@ -20,7 +20,7 @@ public interface Mostrar_Destinos {
 	
 	Destino getDestinoById(int id); // BUSCA LOS DESTINOS POR ID
 		
-	void addDestino(Destino destino);  // AGREGA DESTINO BD
+	boolean addDestino(Destino destino);  // AGREGA DESTINO BD -- LISTO
 										
 	void updateDestino(Destino destino); // ACTUALIZA DESTINO BD
 												

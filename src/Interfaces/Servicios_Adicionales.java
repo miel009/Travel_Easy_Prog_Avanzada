@@ -3,8 +3,12 @@ package Interfaces;
 import java.util.List;
 
 import Modelo.Paquete;
+import Modelo.Servicio_ad;
 
 public interface Servicios_Adicionales {
 		
-	void agregarServiciosAdicionales(Paquete paquete, List<String> servicios);
+	void addServicio(Servicio_ad servicio);
+	
+	
+	
 }

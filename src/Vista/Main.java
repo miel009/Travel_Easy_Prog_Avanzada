@@ -3,9 +3,14 @@ import javax.swing.ImageIcon;
 
 import javax.swing.JOptionPane;
 import Modelo.Destino;
+import Modelo.Paquete;
+import Modelo.Servicio_ad;
 import Controlador.UsuarioControlador;
 import Interfaces.Mostrar_Destinos;
 import Controlador.DestinosControlador;
+import Controlador.PaqueteControlador;
+import Controlador.ServiciosAdControlador;
+
 
 public class Main {
 
@@ -18,7 +23,8 @@ public class Main {
 	//Menu ----> 
 		UsuarioControlador controlador = new UsuarioControlador();
 		DestinosControlador controladorD = new DestinosControlador(); 
-		
+		PaqueteControlador controladorPaquete =new PaqueteControlador();
+		ServiciosAdControlador controladorServicios = new ServiciosAdControlador();		
 		
         String[] ingreso = {"Empleado Turismo", "Empleado Vtas", "Salir"};
        
@@ -49,7 +55,8 @@ public class Main {
             
             switch (opcionEmpleado) {
                 case 0:
-                	String[] empleado_T = {"Agregar destino","Eliminar destino","Lista de destinos","Lista de paquetes","Modificar","Servicios Adicionales","Salir"};
+                	String[] empleado_T = {"Agregar destino","Agregar paquete", "Servicios Adicionales",
+                			"Lista de destinos","Lista de paquetes","Modificar","Eliminar destino","Salir"};
                	
                 	int opcionEmpleado_T=0;
               
@@ -58,51 +65,56 @@ public class Main {
                         
                        switch (opcionEmpleado_T) {
                             case 0: 
-                            	int id_destino= Integer.parseInt(JOptionPane.showInputDialog("Ingrese id"));
-                            	String nombre = JOptionPane.showInputDialog("Ingrese nombre del destino");
-                            	String descrip = JOptionPane.showInputDialog("Ingrese descripcion");                            	
-                            	String pais = JOptionPane.showInputDialog("Ingrese nombre del pais");
-                            	String zonaGeo = JOptionPane.showInputDialog("Ingrese zona geografica");
-                            	String recomendaciones = JOptionPane.showInputDialog("Ingrese recomendaciones");
-                            	String temporada_ideal = JOptionPane.showInputDialog("Ingrese temporada ideal");
-                            	int rangoEdad= Integer.parseInt(JOptionPane.showInputDialog("Ingrese edad"));
-                            	String transp = JOptionPane.showInputDialog("Ingrese tipo de trasporte");
-                            	String tipoTurismo = JOptionPane.showInputDialog("Ingrese tipo de turismo");
-                            	String serviciosAd = JOptionPane.showInputDialog("Ingrese servicios adicionales");
-                            	
-                            	
-                            	controladorD.addDestino(new Destino(id_destino,nombre,pais,zonaGeo,descrip,recomendaciones,
-                            			temporada_ideal,rangoEdad,transp,tipoTurismo,serviciosAd));
+                            	 Destino nuevoDestino = Destino.obtenerDatosDestino();
+                                 if (nuevoDestino != null) {
+                                     controladorD.addDestino(nuevoDestino);
+                                 } else {
+                                     System.out.println("Error al ingresar los datos del destino.");
+                                 }
+                                 break;
                 			
-                            
-                				break;
                 				
                             case 1:
-                            	JOptionPane.showMessageDialog(null, "Elimino destino");
-                               
+                            	JOptionPane.showMessageDialog(null, "agregar paquete");
+                            	Paquete nuevoPaquete = Paquete.obtenerDatosPaquete();
+                                if (nuevoPaquete != null) {
+                                	controladorPaquete.addPaquete(nuevoPaquete);
+                                } else {
+                                    System.out.println("Error al ingresar los datos del paquete.");
+                                }
                                 break;
+                            	
+                                
                             case 2:
-                            	JOptionPane.showMessageDialog(null, "Lista Destinos" );
+                            	Servicio_ad nuevoServicio = Servicio_ad.obtenerDatosServicio();
+                                if (nuevoServicio != null) {
+                                	controladorServicios.addServicio(nuevoServicio);
+                                }
                                 break;
+                                
                             case 3: 
                             	JOptionPane.showMessageDialog(null, "Lista Paquetes");
                                 break;
                             case 4:
                             	JOptionPane.showMessageDialog(null, "Modificar");
-                            	// OPCIONES PARA MODIFICAR
+                            	// OPCIONES PARA MODIFICAR - eliminar destino - eliminar paquete. 
                             	break;
                             case 5:
                             	JOptionPane.showMessageDialog(null, "Servicios Adicionales");	
                             	
                                 break;
                             case 6:
+                            	JOptionPane.showMessageDialog(null, "Servicios Adicionales");	
+                            	
+                                break;
+                            case 7:
                                 JOptionPane.showMessageDialog(null, "Salio de Gestor de destinos");
 
                             default:
                                 break;
                         }
 
-                    } while (opcionEmpleado_T != 6);
+                    } while (opcionEmpleado_T != 7);
               
                 break;
               //FIN MENU EMPLEADO TURISMO GESTOR

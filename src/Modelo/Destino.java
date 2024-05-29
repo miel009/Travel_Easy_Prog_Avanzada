@@ -1,5 +1,7 @@
 package Modelo;
 
+import javax.swing.JOptionPane;
+
 public class Destino {
 	private int id_destino;
 	private String nombre;
@@ -14,10 +16,9 @@ public class Destino {
 	private String servicios_requeridos;
 	
 	
-	public Destino(int id_destino, String nombre, String descripcion, String pais, String zonaGeo,
+	public Destino(String nombre, String descripcion, String pais, String zonaGeo,
 			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo,String servicios_requeridos) {
 		
-		this.id_destino = id_destino;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.pais = pais;
@@ -112,14 +113,62 @@ public class Destino {
 				+ tipo_turismo + ", servicios_requeridos=" + servicios_requeridos + "]";
 	}
 
-	public void agregarDestino(){
-		Destino destino_cero = new Destino(0,"Bariloche","\nDESCRIPCION: Ideal para viajar en invierno si te gusta esquiar",
-				"\nPais:Argentina", "\nZona geografica : America sur","\nRecomendacions: No viajar en invierno si no esta acostumbrado a niveles de frio altos, llevar mucho abrigo",
-				"\nTemporada ideal: invierno.", 15 ,"\nTransporte: Avion","\nTipo de turismo: Aventura","\nServicios requeridos: si desea visitar pueblos cercanos es ideal alquilar un auto");
-		
-	}
+	// Métodos de validación
+    private static String obtenerStringNoVacio(String mensaje) {
+    	 while (true) {
+    	        String cadena = JOptionPane.showInputDialog(mensaje);
+    	        if (cadena != null && !cadena.trim().isEmpty()) {
+    	            // Verificar si la cadena contiene solo letras
+    	            if (cadena.matches("[A-Za-z ]*")) {
+    	                return cadena;
+    	            } else {
+    	                JOptionPane.showMessageDialog(null, "Este campo debe contener solo letras.");
+    	            }
+    	        } else if (cadena == null) {
+    	            JOptionPane.showMessageDialog(null, "Este campo no puede estar vacío.");
+    	        } else {
+    	            JOptionPane.showMessageDialog(null, "Este campo no puede estar vacío.");
+    	        }
+    	    }
+    	}
+    
+    private static int obtenerRangoEdad() {
+        while (true) {
+            try {
+                int rangoEdad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese rango de edad:"));
+                if (rangoEdad > 0) {
+                    return rangoEdad;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El rango de edad debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error: Entrada no válida. Ingrese un número entero.");
+            }
+        }
+    }
 
 
+    public static Destino obtenerDatosDestino() {
+        try {
+            String nombre = obtenerStringNoVacio("Ingrese nombre del destino:");
+            String descrip = obtenerStringNoVacio("Ingrese descripción:");
+            String pais = obtenerStringNoVacio("Ingrese nombre del país:");
+            String zonaGeo = obtenerStringNoVacio("Ingrese zona geográfica:");
+            String recomendaciones = obtenerStringNoVacio("Ingrese recomendaciones:");
+            String temporada_ideal = obtenerStringNoVacio("Ingrese temporada ideal:");
+            int rangoEdad = obtenerRangoEdad();
+            String transp = obtenerStringNoVacio("Ingrese tipo de transporte:");
+            String tipoTurismo = obtenerStringNoVacio("Ingrese tipo de turismo:");
+            String serviciosAd = obtenerStringNoVacio("Ingrese servicios adicionales:");
+
+            return new Destino(nombre, pais, zonaGeo, descrip, recomendaciones, temporada_ideal,
+                    rangoEdad, transp, tipoTurismo, serviciosAd);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error. Asegúrese de ingresar datos correctos.");
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 }
