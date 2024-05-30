@@ -14,7 +14,7 @@ public class Prueba {
     @DisplayName("Prueba de agregar destino")
     public void addDestino() {
         DestinosControlador controlador = new DestinosControlador();
-
+        //EJEMPLO DE DESTINO ID:
         Destino destino = new Destino("Patagonia", "Chile y Argentina", "Sur",
                 "Llevar ropa de abrigo y equipo de senderismo.", "Noviembre a Marzo","Noviembre a Marzo",18, "Transporte terrestre y aéreo", "Aventura", "Guías turísticos equipo de senderismo");
 

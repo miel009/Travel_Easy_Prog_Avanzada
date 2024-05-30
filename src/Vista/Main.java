@@ -1,10 +1,13 @@
 package Vista;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 
 import javax.swing.JOptionPane;
 import Modelo.Destino;
 import Modelo.Paquete;
 import Modelo.Servicio_ad;
+import Modelo.Usuario;
 import Controlador.UsuarioControlador;
 import Interfaces.Mostrar_Destinos;
 import Controlador.DestinosControlador;
@@ -16,10 +19,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//MENU - OPTION - ARRAY - SWICH
-		// PRIMER INGRESO - BIENVENIDA A USUARIO QUE CORRESPONDA- VALIDACION
-		//SWICH-> MENU DE CADA USUARIO.
-	 
+
 	//Menu ----> 
 		UsuarioControlador controlador = new UsuarioControlador();
 		DestinosControlador controladorD = new DestinosControlador(); 
@@ -27,36 +27,26 @@ public class Main {
 		ServiciosAdControlador controladorServicios = new ServiciosAdControlador();		
 		
         String[] ingreso = {"Empleado Turismo", "Empleado Vtas", "Salir"};
-       
       
         int opcionEmpleado;
         do {
             opcionEmpleado = JOptionPane.showOptionDialog(null, "Bienvenido al sistema de gestion"
-            		+ "de destinos TRAVEL EASY \nPor favor ingrese con su usuario correspondiente.", null, 0, 0, null, ingreso, ingreso[0]);
-           //deberia ser un INPUT PARA INGRESAR
-            /*opcionEmpleado = (int) JOptionPane.showInputDialog(null, "Bienvenido al sistema de gestion"
-            		+ "de destinos TRAVEL EASY \nPor favor ingrese con su usuario correspondiente.", null, 0, null, ingreso, ingreso[0]);
-            */
-            //VALIDAR INGRESO - METODO
-            //JOptionPane.showInputDialog(null, opcionEmpleado);
+            		+ "de destinos TRAVEL EASY \nPor favor ingrese con su usuario correspondiente.", null, 0, 0, null, ingreso, ingreso[0]);           
           
-            if (opcionEmpleado == 0) {
+            if (opcionEmpleado == 0) {           	
+            	String ingresoEmpleado;
+                do {
+                    ingresoEmpleado = JOptionPane.showInputDialog(null, "Ingrese su tipo de usuario (Empleado o Empleado Vtas):");
+                } while (!Usuario.ValidarIngresoEmpleado(ingresoEmpleado));
+           
             	
-            	String IngresoEmpT=JOptionPane.showInputDialog(null, "Ingrese contrasena");
-            	if (IngresoEmpT.equalsIgnoreCase("mel")){
-            		JOptionPane.showMessageDialog(null, "Ingreso con exito");           		   	
-            	} else {
-            		JOptionPane.showMessageDialog(null, "ERROR contrasena invalida");
-            	}
             }
-          // AGREGAR METODO PARA INGRESO- VAlIDACION
-            
-            
-            
+
+           
             switch (opcionEmpleado) {
                 case 0:
                 	String[] empleado_T = {"Agregar destino","Agregar paquete", "Servicios Adicionales",
-                			"Lista de destinos","Lista de paquetes","Modificar","Eliminar destino","Salir"};
+                			"Lista de destinos","Lista de paquetes","Modificar","Salir"};
                	
                 	int opcionEmpleado_T=0;
               
@@ -85,43 +75,94 @@ public class Main {
                                 break;
                             	
                                 
-                            case 2:
+                            case 2: // SERVICIOS ADICIONALES AGREGAR
                             	Servicio_ad nuevoServicio = Servicio_ad.obtenerDatosServicio();
                                 if (nuevoServicio != null) {
                                 	controladorServicios.addServicio(nuevoServicio);
                                 }
                                 break;
                                 
-                            case 3: 
-                            	JOptionPane.showMessageDialog(null, "Lista Paquetes");
-                                break;
-                            case 4:
-                            	JOptionPane.showMessageDialog(null, "Modificar");
-                            	// OPCIONES PARA MODIFICAR - eliminar destino - eliminar paquete. 
-                            	break;
-                            case 5:
-                            	JOptionPane.showMessageDialog(null, "Servicios Adicionales");	
+                            case 3:    //ME TRAE LA LISTA DE DESTINOS, Y BUSCA UNO POR NOMBRE                       	
                             	
+                            	List<Destino> destinosList = controladorD.listarDestinos();
+                                if (destinosList.isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "No hay destinos disponibles");
+                                    break;
+                                }
+
+                                String[] destinosL = new String[destinosList.size()];
+                                for (int i = 0; i < destinosL.length; i++) {
+                                    destinosL[i] = destinosList.get(i).getNombre();
+                                }
+
+                                String elegido = (String) JOptionPane.showInputDialog(
+                                    null, 
+                                    "Elija destinos", 
+                                    null, 
+                                    JOptionPane.QUESTION_MESSAGE, 
+                                    null, 
+                                    destinosL, 
+                                    destinosL[0]
+                                );
+
+                                if (elegido != null) {
+                                    // Encontrar el destino mediante su ID
+                                    Destino destinoSeleccionado = null;
+                                    for (Destino destino : destinosList) {
+                                        if (destino.getNombre().equals(elegido)) {
+                                            destinoSeleccionado = destino;
+                                            break;
+                                        }
+                                    }
+
+                                    // Muestra destino encontrado
+                                    if (destinoSeleccionado != null) {
+                                        JOptionPane.showMessageDialog(null, "Destino seleccionado: " + destinoSeleccionado.toString());
+                                        // controladorD.updateDestino(destinoSeleccionado);
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Destino no encontrado");
+                                    }
+                                }
                                 break;
-                            case 6:
-                            	JOptionPane.showMessageDialog(null, "Servicios Adicionales");	
+                                
                             	
-                                break;
-                            case 7:
+                            case 4: JOptionPane.showMessageDialog(null, "lista de paquetes");	
+                            break;
+                            
+                            case 5: 
+                            JOptionPane.showMessageDialog(null, "Modificar- destino actualiza - elimina ");
+                            
+                           
+                            String[] destinoUp = new String[controladorD.listarDestinos().size()];
+                            for (int i = 0; i < destinoUp.length; i++) {
+                                destinoUp[i] = Integer.toString(controladorD.listarDestinos().get(i).getId_destino());
+                            }
+
+                            String opcions = (String) JOptionPane.showInputDialog(null, "Seleccione destino", null, 0, null, destinoUp, destinoUp[0]);
+
+                            Destino seleccionados= controladorD.getDestinoById(Integer.parseInt(opcions));
+
+                            seleccionados.setNombre(JOptionPane.showInputDialog("Su nombre actual es " + seleccionados.getNombre() + "Ingrese uno nuevo: "));
+
+                            controladorD.updateDestino(seleccionados);
+                            
+                         	break;
+                				
+                              case 6:
                                 JOptionPane.showMessageDialog(null, "Salio de Gestor de destinos");
 
                             default:
                                 break;
                         }
 
-                    } while (opcionEmpleado_T != 7);
+                    } while (opcionEmpleado_T != 6);
               
                 break;
               //FIN MENU EMPLEADO TURISMO GESTOR
                 
                 case 1: 
                     JOptionPane.showMessageDialog(null, "empleado Ventas");
-                    String[] empleado_V = {"Ver lista Destinos"," Ver lista paquetes dsiponibbles"," Crear paquete"," Lista de servicios adicionales","Salir"};
+                    String[] empleado_V = {"Ver lista Destinos"," Ver lista paquetes diponibbles"," Crear paquete"," Lista de servicios adicionales","Salir"};
                     
                 	int opcionEmpleado_V=0;
               
@@ -130,8 +171,47 @@ public class Main {
                         
                        switch (opcionEmpleado_V) {
                             case 0: 
-                            	JOptionPane.showMessageDialog(null, "Lista detallada de Destinos disponibles");
-                            	break;
+
+                            	List<Destino> destinosList = controladorD.listarDestinos();
+                                if (destinosList.isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "No hay destinos disponibles");
+                                    break;
+                                }
+
+                                String[] destinosL = new String[destinosList.size()];
+                                for (int i = 0; i < destinosL.length; i++) {
+                                    destinosL[i] = destinosList.get(i).getNombre();
+                                }
+
+                                String elegido = (String) JOptionPane.showInputDialog(
+                                    null, 
+                                    "Elija destinos", 
+                                    null, 
+                                    JOptionPane.QUESTION_MESSAGE, 
+                                    null, 
+                                    destinosL, 
+                                    destinosL[0]
+                                );
+
+                                if (elegido != null) {
+                                    // Encontrar el destino seleccionado
+                                    Destino destinoSeleccionado = null;
+                                    for (Destino destino : destinosList) {
+                                        if (destino.getNombre().equals(elegido)) {
+                                            destinoSeleccionado = destino;
+                                            break;
+                                        }
+                                    }
+
+                                    // Muestra destino
+                                    if (destinoSeleccionado != null) {
+                                        JOptionPane.showMessageDialog(null, "Destino seleccionado: " + destinoSeleccionado.toString());
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Destino no encontrado");
+                                    }
+                                }
+                                break;
+                               
                             case 1:
                             	JOptionPane.showMessageDialog(null, "Lista detallada de Paquetes disponibles");
                                
@@ -164,9 +244,10 @@ public class Main {
                     break;
             }
         } while ( opcionEmpleado != 2);
-	
-		
-	//FIN MENU
-	}
 
-}
+	//FIN MENU
+            }
+	
+        }
+
+

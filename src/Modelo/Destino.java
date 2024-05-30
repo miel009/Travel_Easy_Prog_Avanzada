@@ -104,13 +104,21 @@ public class Destino {
 	}
 	
 	
-	
+    
 	@Override
 	public String toString() {
-		return "Destino [id_destino=" + id_destino + ", nombre=" + nombre + ", descripcion=" + descripcion + ", pais="
-				+ pais + ", zonaGeo=" + zonaGeo + ", recomendaciones=" + recomendaciones + ", temporada_ideal="
-				+ temporada_ideal + ", rango_edad=" + rango_edad + ", transporte=" + transporte + ", tipo_turismo="
-				+ tipo_turismo + ", servicios_requeridos=" + servicios_requeridos + "]";
+	    return "Destino:\n" +
+	           "ID: " + id_destino + "\n" +
+	           "Nombre: " + nombre + "\n" +
+	           "Descripción: " + descripcion + "\n" +
+	           "País: " + pais + "\n" +
+	           "Zona Geográfica: " + zonaGeo + "\n" +
+	           "Recomendaciones: " + recomendaciones + "\n" +
+	           "Temporada Ideal: " + temporada_ideal + "\n" +
+	           "Rango de Edad: " + rango_edad + "\n" +
+	           "Transporte: " + transporte + "\n" +
+	           "Tipo de Turismo: " + tipo_turismo + "\n" +
+	           "Servicios Requeridos: " + servicios_requeridos;
 	}
 
 	// Métodos de validación
@@ -149,6 +157,7 @@ public class Destino {
 
 
     public static Destino obtenerDatosDestino() {
+    	//PARA addDestino.
         try {
             String nombre = obtenerStringNoVacio("Ingrese nombre del destino:");
             String descrip = obtenerStringNoVacio("Ingrese descripción:");
@@ -169,6 +178,8 @@ public class Destino {
             return null;
         }
     }
+    
 
+   
 
 }

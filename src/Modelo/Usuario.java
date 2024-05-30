@@ -49,66 +49,19 @@ public class Usuario extends Persona{
 		return "Usuario [id_ingresoSistema=" + id_ingresoSistema + ", id_usuario=" + id_usuario + "]";
 	}
 
+   
+     public static boolean ValidarIngresoEmpleado(String cadena) {
+    	    boolean flag = false;
+
+    	    if (cadena.equalsIgnoreCase("EmpleadoT") || cadena.equalsIgnoreCase("EmpleadoV")) {
+    	        flag = true;
+    	    } else {
+    	        JOptionPane.showMessageDialog(null, "Error, ingreso no válido. Ingrese con su contrasena personal");
+    	    }
+
+    	    return flag;
+    	}
 
 
-	public boolean ingresoSist(int id_ingresoSistema) {
-		
-		//int ingresoCont = Integer.parseInt(JOptionPane.showInputDialog("ingrese"));
-		
-		if(id_ingresoSistema == 9999) {
-		
-			JOptionPane.showMessageDialog(null,"BIENVENIDO");
-			return true;
-		} else {
-			JOptionPane.showMessageDialog(null,"error");	
-		}
-		
-		// determinar clave y validar
-		// si entra como encargado de turismo o ventas que aparezca un mensaje "bienvenido X"
-		return true;
-		
-	}
-	
-	
-	
-	// VALIDACION LETRAS Y NUM 
-	public static boolean ValidarNumeros(String cadena){
-		
-		boolean flag=true;
-		for (int i = 0; i < cadena.length(); i++) {
-			if (!Character.isDigit(cadena.charAt(i))) {
-				flag=false;
-			}
-		}
-		if (flag==false) {
-			JOptionPane.showMessageDialog(null, "Error al ingresar numero, ingrese de nuevo");
-		} else {
-			if(Integer.parseInt(cadena)<0){
-				JOptionPane.showMessageDialog(null, "Error, no puede agregarse. vuelva a ingresar ");
-		}
-			
-		}
-		
-		return flag;
-	}
-     public static boolean ValidarLetras(String cadena){
-		
-		boolean flag=true;
-		for (int i = 0; i < cadena.length(); i++) {
-			if (!Character.isAlphabetic(cadena.charAt(i))) {
-				flag=false;
-			}
-		}
-		if (flag==false) {
-			JOptionPane.showMessageDialog(null, "Error, ingrese de nuevo");
-		} else {
-			if(cadena.isEmpty()== true){
-				JOptionPane.showMessageDialog(null, "Error,por favor ingrese otra vez");
-		}
-			
-		}
-		
-		return flag;
-	}
 
 }

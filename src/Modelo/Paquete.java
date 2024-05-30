@@ -78,11 +78,24 @@ public class Paquete {
 		this.servicio_paquete = servicio_paquete;
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Paquete [id_paquete=" + id_paquete + ", descripcion=" + descripcion + ", tipo_turismo=" + tipo_turismo
 				+ ", precio=" + precio + ", destino=" + destino + ", servicio_paquete=" + servicio_paquete + "]";
+	}*/
+	
+	@Override
+	public String toString() {
+	    return "Paquete:\n" +
+	           "id_paquete: " + id_paquete + "\n" +
+	           "descripcion: " + descripcion + "\n" +
+	           "tipo_turismo: " + tipo_turismo + "\n" +
+	           "precio: " + precio + "\n" +
+	           "destino: " + destino + "\n" +
+	           "servicio_paquete: " + servicio_paquete;
 	}
+
+	
 	
 	//VALIDACIONES
     private static String obtenerStringNoVacio(String mensaje) {

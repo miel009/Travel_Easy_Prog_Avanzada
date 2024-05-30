@@ -10,10 +10,10 @@ import Modelo.Servicio_ad;
 
 public class ServiciosAdControlador implements Servicios_Adicionales {
 
-    private final Connection agregarS;
+    private final Connection agregar;
 
     public ServiciosAdControlador() {
-        this.agregarS = DatabaseConnection.getInstance().getConnection();
+        this.agregar = DatabaseConnection.getInstance().getConnection();
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ServiciosAdControlador implements Servicios_Adicionales {
         }
 
         try {
-            PreparedStatement statement = agregarS.prepareStatement(
+            PreparedStatement statement = agregar.prepareStatement(
                 "INSERT INTO servicios_ad (alquiler_auto, asistencia_personalizada, precio) VALUES (?, ?, ?)"
             );
 

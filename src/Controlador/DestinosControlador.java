@@ -2,14 +2,19 @@ package Controlador;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import Interfaces.Mostrar_Destinos;
 import Modelo.Destino;
+import Modelo.Usuario;
 
 public class DestinosControlador implements Mostrar_Destinos {
-	//private Destino mostrar;
+	
 	private final Connection agregar;
 	
 	public DestinosControlador() {
@@ -51,23 +56,97 @@ public class DestinosControlador implements Mostrar_Destinos {
 	@Override
 	public void updateDestino(Destino destino) {
 		// TODO Auto-generated method stub
+	     try {
+	            PreparedStatement statement = agregar.prepareStatement("UPDATE destinos SET id_destino = ?, name = ?, descripcion = ?,pais = ?,"
+	            		+ "zonaGeo = ?,recomendaciones = ?,temporada_ideal = ?,rango_edad = ?,transporte = ?,tipo_turismo = ?,servicios_requeridos = ? WHERE id = ?");
+	            statement.setInt(1, destino.getId_destino());
+	            statement.setString(2, destino.getNombre());
+	            statement.setString(3, destino.getDescripcion());	          
+	            statement.setString(4, destino.getPais());
+	            statement.setString(5, destino.getZonaGeo());
+	            statement.setString(6, destino.getRecomendaciones());
+	            statement.setString(7, destino.getTemporada_ideal());      
+	            statement.setInt(8, destino.getRango_edad());
+	            statement.setString(9, destino.getTransporte());
+	            statement.setString(10, destino.getTipo_turismo());
+	            statement.setString(11, destino.getServicios_requeridos());
+	           
+	            
+	            //como cambiarsolo nombre .
+	            
+	            
+	            int rowsUpdated = statement.executeUpdate();
+	            if (rowsUpdated > 0) {
+	                System.out.println("Destino actualizado exitosamente");
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }		
 		
-	}
 	
 	
-	@Override
+	
 	public List<Destino> listarDestinos() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Auto-generated method stub		
+		  
+		        List<Destino> destinos = new ArrayList<>();
+		        try {
+		           
+					PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos ");
+		            ResultSet resultSet = statement.executeQuery();
+		       
+		            while (resultSet.next()) {
+		            	Destino destinos1 = new Destino(resultSet.getString("nombre"), resultSet.getString("descripcion"),
+		            			resultSet.getString("pais"),
+		            			resultSet.getString("zonaGeo"),
+		            			resultSet.getString("recomendaciones"),
+		            			resultSet.getString("temporada_ideal"),
+		            			resultSet.getInt("rango_edad"),
+		            			resultSet.getString("transporte"),
+		            			resultSet.getString("tipo_turismo"),
+		            			resultSet.getString("servicios_requeridos"));
+		            	
+		            	destinos1.setId_destino(resultSet.getInt("id_destino")); 
+		                destinos.add(destinos1);	            	
+		            	
+		            }
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "error en encontrar lista");
+		        }
+		        return destinos;		  
 	}
+	
+
 
 	@Override
-	public Destino getDestinoById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		public Destino getDestinoById(int id) {
+		Destino destinoPorId = null;
+		    try {
+		        PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id = ?");
+		        statement.setInt(1, id);
+
+		        ResultSet resultSet = statement.executeQuery();
+
+		        if (resultSet.next()) {
+		            Destino destinos1 = new Destino(resultSet.getString("nombre"),
+		                    resultSet.getString("descripcion"),
+		                    resultSet.getString("pais"),
+		                    resultSet.getString("zonaGeo"),
+		                    resultSet.getString("recomendaciones"),
+		                    resultSet.getString("temporada_ideal"),
+		                    resultSet.getInt("rango_edad"),
+		                    resultSet.getString("transporte"),
+		                    resultSet.getString("tipo_turismo"),
+		                    resultSet.getString("servicios_requeridos"));
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return destinoPorId;
 	}
-
-
 	@Override
 	public void deleteDestino(String nombreDestino) {
 		// TODO Auto-generated method stub
@@ -85,6 +164,8 @@ public class DestinosControlador implements Mostrar_Destinos {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
 
 	
 }
