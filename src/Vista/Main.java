@@ -46,7 +46,7 @@ public class Main {
             switch (opcionEmpleado) {
                 case 0:
                 	String[] empleado_T = {"Agregar destino","Agregar paquete", "Servicios Adicionales",
-                			"Lista de destinos","Lista de paquetes","Modificar","Salir"};
+                			"Lista de destinos","Eliminar destino","Modificar","Salir"};
                	
                 	int opcionEmpleado_T=0;
               
@@ -126,7 +126,17 @@ public class Main {
                                 break;
                                 
                             	
-                            case 4: JOptionPane.showMessageDialog(null, "lista de paquetes");	
+                            case 4: JOptionPane.showMessageDialog(null, "Eliminar destino");
+                        	String[] destinoEliminar = new String[controladorD.listarDestinos().size()];
+            				for (int i = 0; i < destinoEliminar.length; i++) {
+            					destinoEliminar[i] = Integer.toString(controladorD.listarDestinos().get(i).getId_destino());
+            				}
+
+            				String opcionselecEliminar = (String) JOptionPane.showInputDialog(null, "Seleccione destino", null, 0, null,
+            						destinoEliminar, destinoEliminar[0]);
+
+            				controladorD.deleteDestino(Integer.parseInt(opcionselecEliminar));
+            				
                             break;
                             
                             case 5: 
