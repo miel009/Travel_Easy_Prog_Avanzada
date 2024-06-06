@@ -23,8 +23,8 @@ public class Prueba {
         assertTrue(result, "Destino insertado exitosamente");
     }
     
-}
-/*
+
+
 @Test
 @DisplayName("Prueba de agregar destino con 1 parametro null")
 public void addDestinoIncompleto() {
@@ -39,7 +39,7 @@ public void addDestinoIncompleto() {
 }
 }
 
-*/
+
 
 
 

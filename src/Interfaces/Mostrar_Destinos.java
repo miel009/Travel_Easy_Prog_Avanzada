@@ -16,22 +16,21 @@ public interface Mostrar_Destinos {
 	
 	// MVP
 	// ENCARGADO TURISMO
-	List<Destino> listarDestinos();  // ME TRAE UNA LISTA COMPLETA DE LOS DESTINOS QUE OFRECE TRAVELEASY // PARA ENCARGADDO Y VTAS
+	List<Destino> listarDestinos();  // ME TRAE UNA LISTA COMPLETA DE LOS DESTINOS QUE OFRECE TRAVELEASY // PARA ENCARGADDO Y VTAS// LISTO.
 	
-	Destino getDestinoById(int id); // BUSCA LOS DESTINOS POR ID
+	Destino getDestinoById(int id); // BUSCA LOS DESTINOS POR ID // ERROR 
 		
 	boolean addDestino(Destino destino);  // AGREGA DESTINO BD -- LISTO
 										
-	void updateDestino(Destino destino); // ACTUALIZA DESTINO BD
+	void updateDestino(Destino destino); // ACTUALIZA DESTINO BD // ERROR
 												
-	
+	void deleteDestino(int id_destino);  // LISTO.
+
 	// SECUNDARIO - VTAS
 
-	 // MUESTRA DESTINOS QUE ESTAN DISPONIBLES PARA EL ENCARGADO VTAS
 	
 	List<Destino> filtrarDestinosPorTipoYEdad(List<Destino> destinos, String tipoTurismo, String edad);
-	// FILTRADO  DE PARTE DEL ENCARGADO DE VENTAS 
+	// FILTRADO  DE PARTE DEL ENCARGADO DE VENTAS -- > PARA DESTINOS MAYORES > 18   
 
-	void deleteDestino(int id_destino);
-
+	
 	}
