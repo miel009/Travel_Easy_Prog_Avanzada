@@ -9,12 +9,12 @@ public class Usuario {
 	private int id_usuario;
 	private String nombre;
 	private String email;
-	private int contrasena;
+	private String contrasena;
 	
 
 
 
-	public Usuario(int id_usuario, String nombre, String email, int contrasena) {
+	public Usuario(int id_usuario, String nombre, String email, String contrasena) {
 		super();
 		this.id_usuario = id_usuario;
 		this.nombre = nombre;
@@ -29,11 +29,10 @@ public class Usuario {
 
 
 
+
 	public int getId_usuario() {
 		return id_usuario;
 	}
-
-
 
 
 	public void setId_usuario(int id_usuario) {
@@ -41,13 +40,9 @@ public class Usuario {
 	}
 
 
-
-
 	public String getNombre() {
 		return nombre;
 	}
-
-
 
 
 	public void setNombre(String nombre) {
@@ -55,13 +50,9 @@ public class Usuario {
 	}
 
 
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
 
 
 	public void setEmail(String email) {
@@ -69,31 +60,22 @@ public class Usuario {
 	}
 
 
-
-
-	public int getContrasena() {
+	public String getContrasena() {
 		return contrasena;
 	}
 
 
-
-
-	public void setContrasena(int contrasena) {
+	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
-
-
+	
 
 
 	@Override
 	public String toString() {
 		return "Usuario [id_usuario=" + id_usuario + ", nombre=" + nombre + ", email=" + email + ", contrasena="
-				+ contrasena + ", getId_usuario()=" + getId_usuario() + ", getNombre()=" + getNombre() + ", getEmail()="
-				+ getEmail() + ", getContrasena()=" + getContrasena() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
+				+ contrasena + "]";
 	}
-
-
 
 
 	public static boolean ValidarIngresoEmpleado(String cadena) {
@@ -109,25 +91,25 @@ public class Usuario {
     	}
 
 
-	public static String Ingresar(String nombre, String email,  int contrasena) {
+	public static String Ingresar(String nombre, String email,  String contrasena) {
     	    
-
+		if (nombre.isBlank() ) {
+			return "Intente ingresar el nombre otra vez";
+							
+			} else {
+			if (email.isBlank()) {
+				return "Intente ingresar el email otra vez";
+			} else {									
+				
+	
     	    UsuarioControlador controlador = new UsuarioControlador();
     	    if (controlador.getAllUsers().isEmpty()) {
     	    	return  "No hay usuarios con los datos proporcionados";
 				
 			} else {
-				/*if (nombre.isBlank() ) {
-					return "Intente ingresar el nombre otra vez";
-										
-				} else {
-				if (email.isBlank()) {
-					return "Intente ingresar el email otra vez";
-				} else {									
-					*/
 				
 	    	    for ( Usuario usuario : controlador.getAllUsers()) {
-					if (usuario.getNombre().equalsIgnoreCase(nombre) && usuario.getEmail().equalsIgnoreCase(email) && usuario.getContrasena()==contrasena) {
+					if (usuario.getNombre().equalsIgnoreCase(nombre) && usuario.getEmail().equalsIgnoreCase(email) && usuario.getContrasena().equalsIgnoreCase(contrasena) ) {
 						return "Ingreso con exito!";
 				    	
 					}
@@ -135,4 +117,5 @@ public class Usuario {
 			}
     	    return "No se encontro resultados";
 	}  
+			} } 
 }

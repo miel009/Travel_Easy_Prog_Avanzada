@@ -29,7 +29,7 @@ public class UsuarioControlador implements UserRepository {
        
             while (resultSet.next()) {
             	Usuario user = new Usuario(resultSet.getInt("id_usuario"),  resultSet.getString("nombre"), resultSet.getString("email"),
-            			resultSet.getInt("contrasena"));
+            			resultSet.getString("contrasena"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class UsuarioControlador implements UserRepository {
             
             if (resultSet.next()) {
             	Usuario usuario1 = new Usuario(resultSet.getInt("id_usuario"),resultSet.getString("nombre"), resultSet.getString("email"),
-            			resultSet.getInt("contrasena"));
+            			resultSet.getString("contrasena"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class UsuarioControlador implements UserRepository {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (nombre, email,contrasena) VALUES (?, ?, ?)");
             statement.setString(1, usuario.getNombre());
             statement.setString(2, usuario.getEmail());
-            statement.setInt(3, usuario.getContrasena());
+            statement.setString(3, usuario.getContrasena());
             
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Controlador.UsuarioControlador;
 import Modelo.Usuario;
 
 import javax.swing.JLabel;
@@ -25,9 +26,10 @@ public class PantallaDeInicio extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField nombreUsuarioINPUT;
 	private JTextField Email_IngresoINPUT;
 	private JPasswordField ContrasenaINPUT;
-	private JTextField nombreUsuarioINPUT;
+	
 
 	/**
 	 * Launch the application.
@@ -100,7 +102,7 @@ public class PantallaDeInicio extends JFrame {
 		contentPane.add(email_Input_error);
 		email_Input_error.setVisible(false);
 		
-		JLabel usuarioIngreso_1 = new JLabel("Contraseña ");
+		JLabel usuarioIngreso_1 = new JLabel("Contraseña");
 		usuarioIngreso_1.setBounds(129, 359, 120, 26);
 		usuarioIngreso_1.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 18));
 		contentPane.add(usuarioIngreso_1);
@@ -121,7 +123,10 @@ public class PantallaDeInicio extends JFrame {
 		nombreUsuarioINPUT.setColumns(10);
 		nombreUsuarioINPUT.setBounds(129, 156, 246, 42);
 		contentPane.add(nombreUsuarioINPUT);
-		
+
+		JLabel lblError = new JLabel("");
+		lblError.setBounds(88, 98, 333, 18);
+		contentPane.add(lblError);
 		
 		JButton btnNewButton = new JButton("INICIAR");
 		btnNewButton.setBounds(176, 496, 140, 37);
@@ -130,7 +135,7 @@ public class PantallaDeInicio extends JFrame {
 				boolean flag= true;
 				//USUARIO
 				
-				Usuario.Ingresar(nombreUsuarioINPUT.getText(),Email_IngresoINPUT.getText(),Integer.parseInt(ContrasenaINPUT.getText()));
+			String respuesta = Usuario.Ingresar(nombreUsuarioINPUT.getText(), Email_IngresoINPUT.getText(), ContrasenaINPUT.getText());
 				
 				//NOMBRE
 				if(nombreUsuarioINPUT.getText().isEmpty()) {
@@ -149,7 +154,7 @@ public class PantallaDeInicio extends JFrame {
 					email_Input_error.setVisible(false);
 					
 				}
-				
+				 
 				// CONTRASENA
 				if(ContrasenaINPUT.getText().isEmpty()) {
 					contrasena_Input_error.setVisible(true);	
@@ -158,12 +163,14 @@ public class PantallaDeInicio extends JFrame {
 					contrasena_Input_error.setVisible(false);
 					
 				}
+			
 				
-				if(flag){
+				if(flag && respuesta.equals("Ingreso con exito!")){
 					Pantalla_2 nueva = new Pantalla_2();
 					dispose();
 				}else {
-					
+					lblError.setText(respuesta);
+					lblError.setVisible(true);
 					JOptionPane.showMessageDialog(null, "Error, intente otra vez");
 					
 					
@@ -174,6 +181,7 @@ public class PantallaDeInicio extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton);
+		
 		
 		
 		

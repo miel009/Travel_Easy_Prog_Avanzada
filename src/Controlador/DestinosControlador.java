@@ -116,7 +116,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 	@Override
 
 	public Destino getDestinoById(int id_destino) {
-		Destino destinoPorId= null;
+		Destino destinoPorId= new Destino();
 		try {
 			PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id_destino = ?");
 			statement.setInt(1, id_destino);
