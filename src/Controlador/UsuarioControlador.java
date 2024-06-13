@@ -24,12 +24,12 @@ public class UsuarioControlador implements UserRepository {
     public List<Usuario> getAllUsers() {
         List<Usuario> users = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users ");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario ");
             ResultSet resultSet = statement.executeQuery();
        
             while (resultSet.next()) {
-            	Usuario user = new Usuario(resultSet.getString("name"), resultSet.getString("apellido"),resultSet.getInt("dni"),
-            			resultSet.getInt("Id ingreso al sistema"),resultSet.getInt("Id usuario"));
+            	Usuario user = new Usuario(resultSet.getInt("id_usuario"),  resultSet.getString("nombre"), resultSet.getString("email"),
+            			resultSet.getInt("contrasena"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -39,30 +39,31 @@ public class UsuarioControlador implements UserRepository {
     }
 
     @Override
-    public Usuario getUserById(int id) {
-        Usuario user = null;
+    public Usuario getUserById(int id_usuario) {
+        Usuario usuario = null;
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            statement.setInt(1, id);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE id_usuario = ?");
+            statement.setInt(1, id_usuario);
             
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
-                user = new Usuario(resultSet.getString("name"), resultSet.getString("apellido"),resultSet.getInt("dni"),
-            			resultSet.getInt("Id ingreso al sistema"),resultSet.getInt("Id usuario"));
+            	Usuario usuario1 = new Usuario(resultSet.getInt("id_usuario"),resultSet.getString("nombre"), resultSet.getString("email"),
+            			resultSet.getInt("contrasena"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return usuario;
     }
 
 	@Override
     public void addUser(Usuario usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO users (name, email) VALUES (?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (nombre, email,contrasena) VALUES (?, ?, ?)");
             statement.setString(1, usuario.getNombre());
-            //statement.setString(2, usuario.());
+            statement.setString(2, usuario.getEmail());
+            statement.setInt(3, usuario.getContrasena());
             
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -76,10 +77,10 @@ public class UsuarioControlador implements UserRepository {
 	@Override
     public void updateUser(Usuario usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET name = ?, email = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE usuario SET nombre = ?, email = ? , contrasena = ? WHERE id = ?");
             statement.setString(1, usuario.getNombre());
             //statement.setString(2, usuario.getEmail());
-            //statement.setInt(3, usuario.getId());
+    
             
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -91,10 +92,10 @@ public class UsuarioControlador implements UserRepository {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(int id_usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
-            statement.setInt(1, id);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM usuario WHERE id = ?");
+            statement.setInt(1, id_usuario);
             
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {

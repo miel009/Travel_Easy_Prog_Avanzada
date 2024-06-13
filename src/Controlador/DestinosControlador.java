@@ -115,21 +115,27 @@ public class DestinosControlador implements Mostrar_Destinos {
 
 	@Override
 
-	public Destino getDestinoById(int id) {
-		Destino destinoPorId = null;
+	public Destino getDestinoById(int id_destino) {
+		Destino destinoPorId= null;
 		try {
-			PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id = ?");
-			statement.setInt(1, id);
+			PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id_destino = ?");
+			statement.setInt(1, id_destino);
 
 			ResultSet resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
-				Destino destinos1 = new Destino(resultSet.getString("nombre"), resultSet.getString("descripcion"),
+				Destino destinos1 = new Destino(resultSet.getInt("id_destino"), resultSet.getString("nombre"), resultSet.getString("descripcion"),
 						resultSet.getString("pais"), resultSet.getString("zonaGeo"),
 						resultSet.getString("recomendaciones"), resultSet.getString("temporada_ideal"),
 						resultSet.getInt("rango_edad"), resultSet.getString("transporte"),
 						resultSet.getString("tipo_turismo"), resultSet.getString("servicios_requeridos"));
-			}
+				destinoPorId.setId_destino(resultSet.getInt("id_destino"));
+	            System.out.println("Destino encontrado: " + destinoPorId.getNombre());
+	        } else {
+	            System.out.println("No se encontraron resultados para id_destino = " + id_destino);
+	        }			
+	
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

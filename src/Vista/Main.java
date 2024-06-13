@@ -36,7 +36,7 @@ public class Main {
             if (opcionEmpleado == 0) {           	
             	String ingresoEmpleado;
                 do {
-                    ingresoEmpleado = JOptionPane.showInputDialog(null, "Ingrese su tipo de usuario (Empleado o Empleado Vtas):");
+                    ingresoEmpleado = JOptionPane.showInputDialog(null, "Ingrese su tipo de usuario:");
                 } while (!Usuario.ValidarIngresoEmpleado(ingresoEmpleado));
            
             	
@@ -106,7 +106,7 @@ public class Main {
                                 );
 
                                 if (elegido != null) {
-                                    // Encontrar el destino mediante su ID
+                                 
                                     Destino destinoSeleccionado = null;
                                     for (Destino destino : destinosList) {
                                         if (destino.getNombre().equals(elegido)) {
@@ -139,24 +139,28 @@ public class Main {
             				
                             break;
                             
+                 
+                            
                             case 5: 
-                            JOptionPane.showMessageDialog(null, "Modificar- destino actualiza - elimina ");
-                            
-                           
-                            String[] destinoUp = new String[controladorD.listarDestinos().size()];
-                            for (int i = 0; i < destinoUp.length; i++) {
-                                destinoUp[i] = Integer.toString(controladorD.listarDestinos().get(i).getId_destino());
-                            }
+                                String[] destinoUp = new String[controladorD.listarDestinos().size()];
+                                for (int i = 0; i < destinoUp.length; i++) {
+                                    destinoUp[i] = Integer.toString(controladorD.listarDestinos().get(i).getId_destino());
+                                }
 
-                            String opcions = (String) JOptionPane.showInputDialog(null, "Seleccione destino", null, 0, null, destinoUp, destinoUp[0]);
+                                String opcions = (String) JOptionPane.showInputDialog(null, "Seleccione destino", null, 0, null, destinoUp, destinoUp[0]);
 
-                            Destino seleccionados= controladorD.getDestinoById(Integer.parseInt(opcions));
+                                System.out.println("Opción seleccionada: " + opcions);
 
-                            seleccionados.setNombre(JOptionPane.showInputDialog("Su nombre actual es " + seleccionados.getNombre() + "Ingrese uno nuevo: "));
+                                Destino destinoPorId = controladorD.getDestinoById(Integer.parseInt(opcions));
 
-                            controladorD.updateDestino(seleccionados);
-                            
-                         	break;
+                                if (destinoPorId != null) {
+                                    System.out.println("Destino encontrado: " + destinoPorId);
+                                    destinoPorId.setNombre(JOptionPane.showInputDialog("Su nombre actual es " + destinoPorId.getNombre() + ". Ingrese uno nuevo: "));
+                                    controladorD.updateDestino(destinoPorId);
+                                } else {
+                                    System.out.println("Destino no encontrado");
+                                }
+                                break;
                 				
                               case 6:
                                 JOptionPane.showMessageDialog(null, "Salio de Gestor de destinos");

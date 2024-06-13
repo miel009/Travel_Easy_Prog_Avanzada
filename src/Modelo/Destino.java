@@ -30,6 +30,21 @@ public class Destino {
 		this.tipo_turismo = tipo_turismo;
 		this.servicios_requeridos= servicios_requeridos;
 	}
+
+	public Destino( int id_destino, String nombre, String descripcion, String pais, String zonaGeo,
+			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo,String servicios_requeridos) {
+		this.id_destino = id_destino;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.pais = pais;
+		this.zonaGeo = zonaGeo;
+		this.recomendaciones = recomendaciones;
+		this.temporada_ideal = temporada_ideal;
+		this.rango_edad = rango_edad;
+		this.transporte = transporte;
+		this.tipo_turismo = tipo_turismo;
+		this.servicios_requeridos= servicios_requeridos;
+	}
 	
 	public Destino() {
 		
