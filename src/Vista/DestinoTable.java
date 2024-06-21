@@ -47,6 +47,9 @@ public class DestinoTable extends JFrame {
      * Create the frame.
      */
     public DestinoTable() {
+   
+         controlador = new DestinosControlador();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1166, 452);
         contentPane = new JPanel();
@@ -54,6 +57,7 @@ public class DestinoTable extends JFrame {
         setContentPane(contentPane);
 
         // Inicializar controlador y producto seleccionado
+        
 
         // Crear la tabla y el modelo
         String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo", "servicios_requeridos"};
