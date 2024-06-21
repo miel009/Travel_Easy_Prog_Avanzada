@@ -151,7 +151,9 @@ public class DestinoTable extends JFrame {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (seleccionado.getId_destino() != 0) {
+                if (seleccionado != null && seleccionado.getId_destino() != 0) {
+                    EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador);
+                    editarFrame.setVisible(true);
                     // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
                     // new EditarProducto(seleccionado).setVisible(true);
                     JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");

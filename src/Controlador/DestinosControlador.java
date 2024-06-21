@@ -56,24 +56,21 @@ public class DestinosControlador implements Mostrar_Destinos {
 
 	@Override
 	public void updateDestino(Destino destino) {
-		// TODO Auto-generated method stub
 		try {
-			PreparedStatement statement = agregar
-					.prepareStatement("UPDATE destinos SET id_destino = ?, name = ?, descripcion = ?,pais = ?,"
-							+ "zonaGeo = ?,recomendaciones = ?,temporada_ideal = ?,rango_edad = ?,transporte = ?,tipo_turismo = ?,servicios_requeridos = ? WHERE id = ?");
-			statement.setInt(1, destino.getId_destino());
-			statement.setString(2, destino.getNombre());
-			statement.setString(3, destino.getDescripcion());
-			statement.setString(4, destino.getPais());
-			statement.setString(5, destino.getZonaGeo());
-			statement.setString(6, destino.getRecomendaciones());
-			statement.setString(7, destino.getTemporada_ideal());
-			statement.setInt(8, destino.getRango_edad());
-			statement.setString(9, destino.getTransporte());
-			statement.setString(10, destino.getTipo_turismo());
-			statement.setString(11, destino.getServicios_requeridos());
+			String sql = "UPDATE destinos SET nombre = ?, descripcion = ?, pais = ?, zonaGeo = ?, recomendaciones = ?, temporada_ideal = ?, rango_edad = ?, transporte = ?, tipo_turismo = ?, servicios_requeridos = ? WHERE id_destino = ?";
+			PreparedStatement statement = agregar.prepareStatement(sql);
 
-			// como cambiarsolo nombre .
+			statement.setString(1, destino.getNombre());
+			statement.setString(2, destino.getDescripcion());
+			statement.setString(3, destino.getPais());
+			statement.setString(4, destino.getZonaGeo());
+			statement.setString(5, destino.getRecomendaciones());
+			statement.setString(6, destino.getTemporada_ideal());
+			statement.setInt(7, destino.getRango_edad());
+			statement.setString(8, destino.getTransporte());
+			statement.setString(9, destino.getTipo_turismo());
+			statement.setString(10, destino.getServicios_requeridos());
+			statement.setInt(11, destino.getId_destino());
 
 			int rowsUpdated = statement.executeUpdate();
 			if (rowsUpdated > 0) {
@@ -83,6 +80,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 			e.printStackTrace();
 		}
 	}
+
 
 	public List<Destino> listarDestinos() {
 		
