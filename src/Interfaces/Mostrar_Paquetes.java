@@ -14,7 +14,7 @@ public interface Mostrar_Paquetes {
 										
 	void updatePaquete(Paquete destino); // ACTUALIZA PAQUETE BD
 												
-	void deletePaquete(String nombreDestino);	//ELIMINA PAQUETE BD
+	void deletePaquete(int id_paquete);	//ELIMINA PAQUETE BD
 
 	//Paquete detallarPaqueteTuristico(String nombrePaquete); //POdria ser para descripcion
 

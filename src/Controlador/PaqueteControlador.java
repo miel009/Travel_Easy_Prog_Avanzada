@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 
 import Interfaces.Mostrar_Paquetes;
+import Modelo.Destino;
 import Modelo.Paquete;
 
 public class PaqueteControlador implements Mostrar_Paquetes {
@@ -56,14 +57,39 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		}
 
 	public List<Paquete> listarPaquete() {
+		
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Paquete getPaqueteById(int id) {
+	public Paquete getPaqueteById(int id_paquete) {
 		// TODO Auto-generated method stub
-		return null;
+		Paquete PaquetePorId= new Paquete();
+		try {
+			PreparedStatement statement = agregarP.prepareStatement("SELECT * FROM paquete WHERE id_paquete = ?");
+			statement.setInt(1, id_paquete);
+
+			ResultSet resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				Paquete Paquete1 = new Paquete(resultSet.getInt("id_paquete"), resultSet.getString("nombre"), 
+					resultSet.getString("descripcion"),resultSet.getString("tipo_turismo"),
+				    resultSet.getDouble("precio"));
+					PaquetePorId.setId_paquete(resultSet.getInt("id_paquete"));
+	            System.out.println("Destino encontrado: " + PaquetePorId.getNombreP());
+	        } else {
+	            System.out.println("No se encontraron resultados para id_destino = " + id_paquete);
+	        }			
+	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return PaquetePorId;
 	}
+
+	
 
 
 	public void updatePaquete(Paquete destino) {
@@ -71,9 +97,22 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		
 	}
 
-	public void deletePaquete(String nombreDestino) {
-		// TODO Auto-generated method stub
+	public void deletePaquete(int id_paquete) {
+		// TODO Auto-generated method stub			
+			// funciona
+			try {
+				PreparedStatement statement = agregarP.prepareStatement("DELETE FROM paquete WHERE id_destino = ?");
+				statement.setInt(1, id_paquete);
+
+				int rowsDeleted = statement.executeUpdate();
+				if (rowsDeleted > 0) {
+					System.out.println("Paquete eliminado exitosamente");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
-	}
+	
 
 }

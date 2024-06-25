@@ -10,20 +10,20 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import Controlador.DestinosControlador;
-import Modelo.Destino;
+import Controlador.PaqueteControlador;
+import Modelo.Paquete;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DestinoTable extends JFrame {
+public class PaquetesTabla extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
     private DefaultTableModel model;
-    private DestinosControlador controlador;
+    private PaqueteControlador controlador;
     private JLabel imagenLabel;
-    private Destino seleccionado;
+    private Paquete seleccionado;
  
     private JTextField filtrar;
 
@@ -46,9 +46,10 @@ public class DestinoTable extends JFrame {
     /**
      * Create the frame.
      */
-    public DestinoTable() {
-   
-         controlador = new DestinosControlador();
+    public PaquetesTabla() {
+    	 // Inicializar controlador y producto seleccionado
+        
+        controlador = new PaqueteControlador();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1166, 491);
@@ -56,11 +57,10 @@ public class DestinoTable extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
 
-        // Inicializar controlador y producto seleccionado
-        
+       
 
         // Crear la tabla y el modelo
-        String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo", "servicios_requeridos"};
+        String[] columnNames = {"id_paquete", "Descripcion", "Tipo de turismo","Precio", "id_destino", "id_servicio"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         actualizarTabla();
@@ -89,17 +89,11 @@ public class DestinoTable extends JFrame {
                     if (selectedRow != -1) {
                         int id_destino = (int) table.getValueAt(selectedRow, 0);
                         String nombre = (String) table.getValueAt(selectedRow, 1);
-                        String descripcion = (String) table.getValueAt(selectedRow, 2);  
-                        String pais = (String) table.getValueAt(selectedRow, 3);        
-                        String zonaGeo = (String) table.getValueAt(selectedRow, 4);
-                        String recomendaciones = (String) table.getValueAt(selectedRow, 5);
-                        String temporada_ideal = (String) table.getValueAt(selectedRow, 6);
-                        int rango_edad = (int) table.getValueAt(selectedRow, 7);
-                        String transporte = (String) table.getValueAt(selectedRow, 8);
-                       // int cantidad = (int) table.getValueAt(selectedRow, 9); // Obtener la cantidad de productos
-                        String tipo_turismo = (String) table.getValueAt(selectedRow, 9);
-                        String servicios_requeridos = (String) table.getValueAt(selectedRow, 10);
-                        seleccionado = controlador.getDestinoById(id_destino);
+                        String descripcion = (String) table.getValueAt(selectedRow, 2);                                                           
+                        String tipo_turismo = (String) table.getValueAt(selectedRow, 3);
+                        double precio = (double) table.getValueAt(selectedRow, 4);
+                        String servicios_requeridos = (String) table.getValueAt(selectedRow, 5);
+                       // seleccionado = controlador.getDestinoById(id_destino);
                         //mostrarImagen(seleccionado.getImagen());
                     }
                 }
@@ -113,8 +107,8 @@ public class DestinoTable extends JFrame {
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (seleccionado.getId_destino() != 0) {
-                    controlador.deleteDestino(seleccionado.getId_destino());
+                if (seleccionado.getId_paquete() != 0) {
+                    controlador.deletePaquete(seleccionado.getId_paquete());
                     JOptionPane.showMessageDialog(null, "Destino eliminado");
                     actualizarTabla();
                     imagenLabel.setIcon(null);
@@ -151,10 +145,9 @@ public class DestinoTable extends JFrame {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (seleccionado != null && seleccionado.getId_destino() != 0) {
-                    EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador, DestinoTable.this);
-                    editarFrame.setVisible(true);
-                    
+                if (seleccionado != null && seleccionado.getId_paquete() != 0) {
+                   // EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador);
+                    //editarFrame.setVisible(true);
                     // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
                     // new EditarProducto(seleccionado).setVisible(true);
                     JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
@@ -165,28 +158,24 @@ public class DestinoTable extends JFrame {
         });
     }
 
-    public void actualizarTabla() {
+    private void actualizarTabla() {
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
 
         // Obtener la lista actualizada de productos
        
-        List<Destino> destinos = controlador.listarDestinos();
+        List<Paquete> paquetes = controlador.listarPaquete();
 
         // Agregar los datos al modelo
-        for (Destino destino : destinos) {
+        for (Paquete paquete : paquetes) {
             model.addRow(new Object[]{
-            		destino.getId_destino(),
-            		destino.getNombre(),
-            		destino.getDescripcion(),
-            		destino.getPais(),
-            		destino.getZonaGeo(),
-            		destino.getRecomendaciones(),
-            		destino.getTemporada_ideal(),
-            		destino.getRango_edad(),
-            		destino.getTransporte(),
-            		destino.getTipo_turismo(),
-            		destino.getServicios_requeridos()
+            		paquete.getId_paquete(),
+            		paquete.getNombreP(),
+            		paquete.getDescripcion(),
+            		paquete.getTipo_turismo(),
+            		paquete.getPrecio(),
+            		paquete.getServicio_paquete()
+            	
             });
         }
     }
@@ -195,13 +184,13 @@ public class DestinoTable extends JFrame {
         model.setRowCount(0);
 
         // Obtener la lista actualizada de productos
-        List<Destino> destinos = controlador.listarDestinos();
+        List<Paquete> paquetes = controlador.listarPaquete();
 
         // Agregar los datos al modelo
-        for (Destino destino : destinos ) {
-        	if(destino.getNombre().contains(criterio)) {
-                model.addRow(new Object[]{destino.getId_destino(), destino.getNombre(), destino.getDescripcion(),
-                destino.getPais(), destino.getZonaGeo() , destino.getRecomendaciones(), destino.getTemporada_ideal(),destino.getRango_edad(),destino.getTransporte(), destino.getTipo_turismo(),destino.getServicios_requeridos()});
+        for (Paquete paquete : paquetes) {
+        	if(paquete.getNombreP().contains(criterio)) {
+                model.addRow(new Object[]{paquete.getId_paquete(), paquete.getNombreP(), paquete.getDescripcion(),
+                		paquete.getTipo_turismo(), paquete.getPrecio()});
         	}
         }
     }

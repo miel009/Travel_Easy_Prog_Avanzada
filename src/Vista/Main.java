@@ -65,7 +65,7 @@ public class Main {
                 			
                 				
                             case 1:
-                            	JOptionPane.showMessageDialog(null, "agregar paquete");
+                            	/*JOptionPane.showMessageDialog(null, "agregar paquete");
                             	Paquete nuevoPaquete = Paquete.obtenerDatosPaquete();
                                 if (nuevoPaquete != null) {
                                 	controladorPaquete.addPaquete(nuevoPaquete);
@@ -73,7 +73,7 @@ public class Main {
                                     System.out.println("Error al ingresar los datos del paquete.");
                                 }
                                 break;
-                            	
+                            	*/
                                 
                             case 2: // SERVICIOS ADICIONALES AGREGAR
                             	Servicio_ad nuevoServicio = Servicio_ad.obtenerDatosServicio();

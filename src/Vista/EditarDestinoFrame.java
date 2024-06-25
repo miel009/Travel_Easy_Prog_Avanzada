@@ -1,6 +1,8 @@
 package Vista;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,10 +25,12 @@ public class EditarDestinoFrame extends JFrame {
     private JTextField serviciosRequeridosField;
     private Destino destino;
     private DestinosControlador controlador;
+    private DestinoTable destinoTable;
 
-    public EditarDestinoFrame(Destino destino, DestinosControlador controlador) {
+    public EditarDestinoFrame(Destino destino, DestinosControlador controlador , DestinoTable destinoTable) {
         this.destino = destino;
         this.controlador = controlador;
+        this.destinoTable = destinoTable;
 
         setTitle("Editar Destino");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -99,6 +103,7 @@ public class EditarDestinoFrame extends JFrame {
 
         controlador.updateDestino(destino);
         JOptionPane.showMessageDialog(this, "Destino actualizado");
+        destinoTable.actualizarTabla();
         dispose();
     }
 }
