@@ -25,19 +25,32 @@ public class Pantalla_2 extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-
+	 public static void main(String[] args) {
+	        EventQueue.invokeLater(new Runnable() {
+	            public void run() {
+	                try {
+	                    Pantalla_2 frame = new Pantalla_2();
+	                    frame.setVisible(true);
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        });
+	    }
 	/**
 	 * Create the frame.
 	 */
 	public Pantalla_2() {
 		this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 338);
+		setBounds(100, 100, 635, 481);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 		
 		JLabel lblNewLabel = new JLabel("Bienvenido al sistema de gestion");
 		lblNewLabel.setBounds(39, 12, 559, 41);
@@ -47,15 +60,22 @@ public class Pantalla_2 extends JFrame {
 		JButton boton_Destinos = new JButton("Destinos");
 		boton_Destinos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DestinoTable nueva = new DestinoTable();
+				dispose();
+				
 			}
 		});
 		boton_Destinos.setBounds(238, 124, 140, 41);
 		contentPane.add(boton_Destinos);
 		
 		JButton Boton_Paquete = new JButton("Paquetes");
+		
 		Boton_Paquete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PaquetesTabla nueva = new PaquetesTabla();
+				dispose();
 			}
+			
 		});
 		Boton_Paquete.setBounds(238, 195, 140, 41);
 		contentPane.add(Boton_Paquete);

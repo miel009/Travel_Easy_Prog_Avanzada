@@ -8,15 +8,16 @@ public class Paquete {
 	private String descripcion;
 	private String tipo_turismo;
 	private double precio;
-	private Destino destino;
+	private int destino;
 	
 	
-	public Paquete(int id_paquete , String nombreP, String descripcion, String tipo_turismo, double precio) {
+	public Paquete(int id_paquete, String nombreP, String descripcion, String tipo_turismo, double precio, int destino) {
+		this.id_paquete=id_paquete;
 		this.nombreP = nombreP;
 		this.descripcion = descripcion;
 		this.tipo_turismo = tipo_turismo;
 		this.precio = precio;
-		//this.destino = destino;
+		this.destino = destino;
 		
 		
 		
@@ -62,13 +63,6 @@ public class Paquete {
 		this.precio = precio;
 	}
 
-	public Destino getDestino() {
-		return destino;
-	}
-
-	public void setDestino(Destino destino) {
-		this.destino = destino;
-	}
 	
 
 
@@ -79,13 +73,19 @@ public class Paquete {
 				+ ", precio=" + precio + ", destino=" + destino + ", servicio_paquete=" + servicio_paquete + "]";
 	}*/
 	
+	public int getDestino() {
+		return destino;
+	}
+	public void setDestino(int destino) {
+		this.destino = destino;
+	}
 	@Override
 	public String toString() {
 	    return "Paquete:\n" +
 	           "id_paquete: " + id_paquete + "\n" +
 	           "descripcion: " + descripcion + "\n" +
 	           "tipo_turismo: " + tipo_turismo + "\n" +
-	           "precio: " + precio + "\n";
+	           "precio: " + precio + "\n" ;
 	}
 
 	

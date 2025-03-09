@@ -34,7 +34,7 @@ public class EditarDestinoFrame extends JFrame {
 
         setTitle("Editar Destino");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 450, 400);
+        setBounds(100, 100, 508, 505);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);

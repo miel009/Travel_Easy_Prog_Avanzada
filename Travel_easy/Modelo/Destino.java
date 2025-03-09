@@ -48,6 +48,9 @@ public class Destino {
 	
 	public Destino() {
 		
+	}
+public Destino(int id_Destino , String nombre) {
+		
 	}	
 	
 	public int getId_destino() {

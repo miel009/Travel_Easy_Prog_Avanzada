@@ -55,6 +55,9 @@ public class EditarPaquete extends JFrame {
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 guardarCambios();
+                PaquetesTabla paqueteTabla = new PaquetesTabla();
+                paqueteTabla.actualizarTabla();
+
             }
         });
         contentPane.add(btnGuardar);

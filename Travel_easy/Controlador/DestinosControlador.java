@@ -43,11 +43,14 @@ public class DestinosControlador implements Mostrar_Destinos {
 
 			int rowsInserted = statement.executeUpdate();
 			if (rowsInserted > 0) {
-				System.out.println("Destino insertado exitosamente");
+				
+			JOptionPane.showMessageDialog(null, "Destino insertado exitosamente");
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Error, destino NO insertado");
+			JOptionPane.showMessageDialog(null, "Error, destino NO insertado");
+			
 			return false;
 		}
 		return true;
@@ -70,11 +73,12 @@ public class DestinosControlador implements Mostrar_Destinos {
 			statement.setString(8, destino.getTransporte());
 			statement.setString(9, destino.getTipo_turismo());
 			statement.setString(10, destino.getServicios_requeridos());
-			statement.setInt(11, destino.getId_destino());
+			statement.setInt(11, destino.getId_destino()); 
+			
 
 			int rowsUpdated = statement.executeUpdate();
 			if (rowsUpdated > 0) {
-				System.out.println("Destino actualizado exitosamente");
+				JOptionPane.showMessageDialog(null, "Destino actualizado exitosamente");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,33 +116,45 @@ public class DestinosControlador implements Mostrar_Destinos {
 	}
 
 	@Override
-
+	// funciona 
 	public Destino getDestinoById(int id_destino) {
-		Destino destinoPorId= new Destino();
-		try {
-			PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id_destino = ?");
-			statement.setInt(1, id_destino);
+	    Destino destinoPorId = null; // Cambiamos a null en caso de que no haya resultados
 
-			ResultSet resultSet = statement.executeQuery();
+	    try {
+	        PreparedStatement statement = agregar.prepareStatement("SELECT * FROM destinos WHERE id_destino = ?");
+	        statement.setInt(1, id_destino);
+	        ResultSet resultSet = statement.executeQuery();
 
-			if (resultSet.next()) {
-				Destino destinos1 = new Destino(resultSet.getInt("id_destino"), resultSet.getString("nombre"), resultSet.getString("descripcion"),
-						resultSet.getString("pais"), resultSet.getString("zonaGeo"),
-						resultSet.getString("recomendaciones"), resultSet.getString("temporada_ideal"),
-						resultSet.getInt("rango_edad"), resultSet.getString("transporte"),
-						resultSet.getString("tipo_turismo"), resultSet.getString("servicios_requeridos"));
-				destinoPorId.setId_destino(resultSet.getInt("id_destino"));
+	        if (resultSet.next()) {
+	            destinoPorId = new Destino(
+	                resultSet.getInt("id_destino"), 
+	                resultSet.getString("nombre"), 
+	                resultSet.getString("descripcion"),
+	                resultSet.getString("pais"), 
+	                resultSet.getString("zonaGeo"),
+	                resultSet.getString("recomendaciones"), 
+	                resultSet.getString("temporada_ideal"),
+	                resultSet.getInt("rango_edad"), 
+	                resultSet.getString("transporte"),
+	                resultSet.getString("tipo_turismo"), 
+	                resultSet.getString("servicios_requeridos")
+	                
+	            );
 	            System.out.println("Destino encontrado: " + destinoPorId.getNombre());
 	        } else {
 	            System.out.println("No se encontraron resultados para id_destino = " + id_destino);
-	        }			
-	
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return destinoPorId;
+	        }            
+
+	        // Cierre de recursos
+	        resultSet.close();
+	        statement.close();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return destinoPorId;
 	}
+
 
 	
 	

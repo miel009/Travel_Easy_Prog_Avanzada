@@ -24,7 +24,7 @@ public class DestinoTable extends JFrame {
     private DestinosControlador controlador;
     private JLabel imagenLabel;
     private Destino seleccionado;
- 
+
     private JTextField filtrar;
 
     /**
@@ -47,18 +47,17 @@ public class DestinoTable extends JFrame {
      * Create the frame.
      */
     public DestinoTable() {
-   
-         controlador = new DestinosControlador();
 
+
+
+        controlador = new DestinosControlador();
+        this.setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1166, 491);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-
-        // Inicializar controlador y producto seleccionado
-        
-
+        contentPane.setLayout(null);
         // Crear la tabla y el modelo
         String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo", "servicios_requeridos"};
         model = new DefaultTableModel(columnNames, 0);
@@ -89,8 +88,8 @@ public class DestinoTable extends JFrame {
                     if (selectedRow != -1) {
                         int id_destino = (int) table.getValueAt(selectedRow, 0);
                         String nombre = (String) table.getValueAt(selectedRow, 1);
-                        String descripcion = (String) table.getValueAt(selectedRow, 2);  
-                        String pais = (String) table.getValueAt(selectedRow, 3);        
+                        String descripcion = (String) table.getValueAt(selectedRow, 2);
+                        String pais = (String) table.getValueAt(selectedRow, 3);
                         String zonaGeo = (String) table.getValueAt(selectedRow, 4);
                         String recomendaciones = (String) table.getValueAt(selectedRow, 5);
                         String temporada_ideal = (String) table.getValueAt(selectedRow, 6);
@@ -108,7 +107,7 @@ public class DestinoTable extends JFrame {
 
         // Botón para eliminar el producto seleccionado
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(590, 346, 120, 30);
+        btnEliminar.setBounds(539, 366, 120, 30);
         contentPane.add(btnEliminar);
         btnEliminar.addActionListener(new ActionListener() {
             @Override
@@ -123,38 +122,62 @@ public class DestinoTable extends JFrame {
                 }
             }
         });
+        // Botón Deshacer Filtros por id
+        JButton btnDeshacerFiltros = new JButton("Deshacer Filtros");
+        btnDeshacerFiltros.setBounds(372, 406, 120, 30);
+        contentPane.add(btnDeshacerFiltros);
+        btnDeshacerFiltros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarTabla();
+            }
+        });
 
         // Botón para editar el producto seleccionado
         JButton btnEditar = new JButton("Editar");
-        btnEditar.setBounds(720, 346, 120, 30);
+        btnEditar.setBounds(669, 366, 120, 30);
         contentPane.add(btnEditar);
-        
+
         filtrar = new JTextField();
-        filtrar.setBounds(15, 316, 86, 20);
+        filtrar.setBounds(266, 369, 96, 25);
         contentPane.add(filtrar);
         filtrar.setColumns(10);
-        
+
         JLabel lblNewLabel = new JLabel("Criterio");
-        lblNewLabel.setBounds(127, 319, 62, 14);
+        lblNewLabel.setBounds(266, 346, 62, 14);
         contentPane.add(lblNewLabel);
-        
+
         JButton btnNewButton = new JButton("Filtrar");
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		
-        		Filtrar(filtrar.getText());
-        		
+                FiltroFrame filtroFrame = new FiltroFrame(DestinoTable.this);
+                filtroFrame.setVisible(true);
+
         	}
         });
-        btnNewButton.setBounds(238, 316, 89, 23);
+
+        btnNewButton.setBounds(372, 366, 120, 30);
         contentPane.add(btnNewButton);
+
+        // Inicializar controlador y producto seleccionado
+
+        // boton atras
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.setBounds(798, 366, 120, 30);
+        contentPane.add(btnVolver);
+        btnVolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Pantalla_2 pantalla2 = new Pantalla_2();
+                dispose(); // Cierra la ventana actual
+            }
+        });
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (seleccionado != null && seleccionado.getId_destino() != 0) {
                     EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador, DestinoTable.this);
                     editarFrame.setVisible(true);
-                    
+
                     // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
                     // new EditarProducto(seleccionado).setVisible(true);
                     JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
@@ -170,7 +193,7 @@ public class DestinoTable extends JFrame {
         model.setRowCount(0);
 
         // Obtener la lista actualizada de productos
-       
+
         List<Destino> destinos = controlador.listarDestinos();
 
         // Agregar los datos al modelo
@@ -190,7 +213,7 @@ public class DestinoTable extends JFrame {
             });
         }
     }
-    private void Filtrar(String criterio) {
+    public void Filtrar(String criterio) {
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
 
@@ -203,6 +226,34 @@ public class DestinoTable extends JFrame {
                 model.addRow(new Object[]{destino.getId_destino(), destino.getNombre(), destino.getDescripcion(),
                 destino.getPais(), destino.getZonaGeo() , destino.getRecomendaciones(), destino.getTemporada_ideal(),destino.getRango_edad(),destino.getTransporte(), destino.getTipo_turismo(),destino.getServicios_requeridos()});
         	}
+        }
+    }
+    public void filtrarPorId(Integer id) {
+        // Limpiar el modelo de la tabla
+        model.setRowCount(0);
+
+        // Obtener la lista actualizada de destinos
+        List<Destino> destinos = controlador.listarDestinos();
+
+        // Agregar los datos al modelo
+        for (Destino destino : destinos) {
+            boolean coincideId = id == null || destino.getId_destino() == id;
+
+            if (coincideId) {
+                model.addRow(new Object[]{
+                        destino.getId_destino(),
+                        destino.getNombre(),
+                        destino.getDescripcion(),
+                        destino.getPais(),
+                        destino.getZonaGeo(),
+                        destino.getRecomendaciones(),
+                        destino.getTemporada_ideal(),
+                        destino.getRango_edad(),
+                        destino.getTransporte(),
+                        destino.getTipo_turismo(),
+                        destino.getServicios_requeridos()
+                });
+            }
         }
     }
 

@@ -34,7 +34,7 @@ public class PaquetesTabla extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                	DestinoTable frame = new DestinoTable();
+                	PaquetesTabla frame = new PaquetesTabla();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -46,21 +46,31 @@ public class PaquetesTabla extends JFrame {
     /**
      * Create the frame.
      */
+    
     public PaquetesTabla() {
     	 // Inicializar controlador y producto seleccionado
         
         controlador = new PaqueteControlador();
-
+        this.setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1166, 491);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-
-       
+        contentPane.setLayout(null);
+        // atras 
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Pantalla_2 pantalla2 = new Pantalla_2();
+                dispose(); // Cierra la ventana actual
+            }
+        });
+        btnVolver.setBounds(783, 346, 128, 30);
+        contentPane.add(btnVolver);
 
         // Crear la tabla y el modelo
-        String[] columnNames = {"id_paquete", "Descripcion", "Tipo de turismo","Precio", "id_destino", "id_servicio"};
+        String[] columnNames = {"id_paquete", "nombre" , "Descripcion", "Tipo de turismo","Precio", "id_destino"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         actualizarTabla();
@@ -87,13 +97,16 @@ public class PaquetesTabla extends JFrame {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = table.getSelectedRow();
                     if (selectedRow != -1) {
-                        int id_destino = (int) table.getValueAt(selectedRow, 0);
+                    	Paquete nuevoP = new Paquete();
+                        int id_paquete = (int) table.getValueAt(selectedRow, 0);
                         String nombre = (String) table.getValueAt(selectedRow, 1);
                         String descripcion = (String) table.getValueAt(selectedRow, 2);                                                           
                         String tipo_turismo = (String) table.getValueAt(selectedRow, 3);
                         double precio = (double) table.getValueAt(selectedRow, 4);
-                        String servicios_requeridos = (String) table.getValueAt(selectedRow, 5);
-                       // seleccionado = controlador.getDestinoById(id_destino);
+                        int id_destino =(int) table.getValueAt(selectedRow, 5);
+                        
+                        
+                        seleccionado = controlador.getPaqueteById(id_paquete);
                         //mostrarImagen(seleccionado.getImagen());
                     }
                 }
@@ -102,34 +115,34 @@ public class PaquetesTabla extends JFrame {
 
         // Botón para eliminar el producto seleccionado
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(590, 346, 120, 30);
+        btnEliminar.setBounds(523, 346, 120, 30);
         contentPane.add(btnEliminar);
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (seleccionado.getId_paquete() != 0) {
                     controlador.deletePaquete(seleccionado.getId_paquete());
-                    JOptionPane.showMessageDialog(null, "Destino eliminado");
+                    JOptionPane.showMessageDialog(null, "Paquete eliminado");
                     actualizarTabla();
                     imagenLabel.setIcon(null);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Seleccione un destino");
+                    JOptionPane.showMessageDialog(null, "Seleccione un paquete");
                 }
             }
         });
 
         // Botón para editar el producto seleccionado
         JButton btnEditar = new JButton("Editar");
-        btnEditar.setBounds(720, 346, 120, 30);
+        btnEditar.setBounds(653, 346, 120, 30);
         contentPane.add(btnEditar);
         
         filtrar = new JTextField();
-        filtrar.setBounds(15, 316, 86, 20);
+        filtrar.setBounds(253, 346, 101, 25);
         contentPane.add(filtrar);
         filtrar.setColumns(10);
         
         JLabel lblNewLabel = new JLabel("Criterio");
-        lblNewLabel.setBounds(127, 319, 62, 14);
+        lblNewLabel.setBounds(253, 326, 62, 14);
         contentPane.add(lblNewLabel);
         
         JButton btnNewButton = new JButton("Filtrar");
@@ -140,17 +153,17 @@ public class PaquetesTabla extends JFrame {
         		
         	}
         });
-        btnNewButton.setBounds(238, 316, 89, 23);
+        btnNewButton.setBounds(364, 346, 113, 28);
         contentPane.add(btnNewButton);
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (seleccionado != null && seleccionado.getId_paquete() != 0) {
-                   // EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador);
-                    //editarFrame.setVisible(true);
+                   EditarPaquete editarFrame = new EditarPaquete(seleccionado, controlador);
+                    editarFrame.setVisible(true);
                     // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
                     // new EditarProducto(seleccionado).setVisible(true);
-                    JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
+                    //JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un producto");
                 }
@@ -158,7 +171,7 @@ public class PaquetesTabla extends JFrame {
         });
     }
 
-    private void actualizarTabla() {
+    public void actualizarTabla() {
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
 
@@ -174,7 +187,8 @@ public class PaquetesTabla extends JFrame {
             		paquete.getDescripcion(),
             		paquete.getTipo_turismo(),
             		paquete.getPrecio(),
-            		paquete.getServicio_paquete()
+            		paquete.getDestino()
+            		
             	
             });
         }
@@ -190,7 +204,7 @@ public class PaquetesTabla extends JFrame {
         for (Paquete paquete : paquetes) {
         	if(paquete.getNombreP().contains(criterio)) {
                 model.addRow(new Object[]{paquete.getId_paquete(), paquete.getNombreP(), paquete.getDescripcion(),
-                		paquete.getTipo_turismo(), paquete.getPrecio()});
+                		paquete.getTipo_turismo(), paquete.getPrecio(), paquete.getDestino()});
         	}
         }
     }

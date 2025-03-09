@@ -65,6 +65,91 @@ public class Main {
                 			
                 				
                             case 1:
+                            	   // Aquí debes crear un nuevo paquete con los datos necesarios
+                                // Obtener la lista de destinos existentes
+                                List<Destino> destinosList1 = controladorD.listarDestinos();
+                                if (destinosList1.isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "No hay destinos disponibles");
+                                    break;
+                                }
+
+                                // Mostrar la lista1 de destinos para seleccionar uno
+                                String[] destinosL1 = new String[destinosList1.size()];
+                                for (int i = 0; i < destinosL1.length; i++) {
+                                    destinosL1[i] = destinosList1.get(i).getNombre();
+                                }
+
+                                String destinoElegido = (String) JOptionPane.showInputDialog(
+                                    null, 
+                                    "Elija un destino", 
+                                    null, 
+                                    JOptionPane.QUESTION_MESSAGE, 
+                                    null, 
+                                    destinosL1, 
+                                    destinosL1[0]
+                                );
+
+                                if (destinoElegido == null) {
+                                    JOptionPane.showMessageDialog(null, "No seleccionó ningún destino.");
+                                    break;
+                                }
+
+                                // Encontrar el destino seleccionado
+                                Destino destinoSeleccionado1 = null;
+                                for (Destino destino : destinosList1) {
+                                    if (destino.getNombre().equals(destinoElegido)) {
+                                        destinoSeleccionado1 = destino;
+                                        break;
+                                    }
+                                }
+
+                                if (destinoSeleccionado1 == null) {
+                                    JOptionPane.showMessageDialog(null, "Destino no encontrado.");
+                                    break;
+                                }
+
+                                // Recopilar datos del paquete
+                                String nombreP = JOptionPane.showInputDialog("Ingrese el nombre del paquete:");
+                                if (nombreP == null || nombreP.trim().isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Nombre del paquete no puede estar vacío.");
+                                    break;
+                                }
+
+                                String descripcion = JOptionPane.showInputDialog("Ingrese la descripción del paquete:");
+                                if (descripcion == null || descripcion.trim().isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Descripción del paquete no puede estar vacía.");
+                                    break;
+                                }
+
+                                String tipo_turismo = JOptionPane.showInputDialog("Ingrese el tipo de turismo:");
+                                if (tipo_turismo == null || tipo_turismo.trim().isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Tipo de turismo no puede estar vacío.");
+                                    break;
+                                }
+
+                                double precio = 0;
+                                try {
+                                    precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del paquete:"));
+                                } catch (NumberFormatException e) {
+                                    JOptionPane.showMessageDialog(null, "Precio inválido.");
+                                    break;
+                                }
+
+                                // Crear el objeto Paquete con los datos ingresados
+                                Paquete nuevoPaquete = new Paquete();
+                                nuevoPaquete.setNombreP(nombreP);
+                                nuevoPaquete.setDescripcion(descripcion);
+                                nuevoPaquete.setTipo_turismo(tipo_turismo);
+                                nuevoPaquete.setPrecio(precio);
+                               
+                                //nuevoPaquete.setDestino(destinoSeleccionado1); // Asignar el destino seleccionado
+
+                                // Agregar el paquete usando el controlador
+                                controladorPaquete.addPaquete(nuevoPaquete);
+
+                                break;
+                            	
+                            	
                             	/*JOptionPane.showMessageDialog(null, "agregar paquete");
                             	Paquete nuevoPaquete = Paquete.obtenerDatosPaquete();
                                 if (nuevoPaquete != null) {
