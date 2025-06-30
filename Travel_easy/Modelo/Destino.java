@@ -49,9 +49,11 @@ public class Destino {
 	public Destino() {
 		
 	}
-public Destino(int id_Destino , String nombre) {
-		
-	}	
+	public Destino(int id_destino, String nombre) {
+	    this.id_destino = id_destino;
+	    this.nombre = nombre;
+	}
+	
 	
 	public int getId_destino() {
 		return id_destino;

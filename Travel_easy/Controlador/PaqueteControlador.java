@@ -17,63 +17,84 @@ import Modelo.Paquete;
 public class PaqueteControlador implements Mostrar_Paquetes {
 	
 	private final Connection agregarP;
+	private final DestinosControlador destinosControlador;
+
 	
 	public PaqueteControlador() {
         this.agregarP = DatabaseConnection.getInstance().getConnection();
+        this.destinosControlador = new DestinosControlador();
     }
 	
 	public void addPaquete(Paquete paquete) {
-		// TODO Auto-generated method stub
-			try {
-		        // Verificar si el destino existe
-		        PreparedStatement destinoStatement = agregarP.prepareStatement("SELECT id_destino FROM destinos WHERE nombreT = ?");
-		        //destinoStatement.setString(1, paquete.getDestino().getNombre());
-		        JOptionPane.showInputDialog("El destino existe");
-		        ResultSet destinoResult = destinoStatement.executeQuery();
+	    try {
+	       
+	        if (paquete.getDestino() == null || paquete.getDestino().getNombre() == null) {
+	            System.out.println("Error: El destino del paquete no está seteado correctamente.");
+	            JOptionPane.showMessageDialog(null, "Debe seleccionar un destino válido para el paquete.");
+	            return;
+	        }
 
-		        int destinoId = 0;
-		        if (destinoResult.next()) {
-		            destinoId = destinoResult.getInt("id_destino");
-		        } else {
-		            System.out.println("Error: El destino no existe en la base de datos.");
-		            return; // Detiene la ejecución del método si el destino no existe
-		        }
+	        // Verificar si el destino existe
+	        PreparedStatement destinoStatement = agregarP.prepareStatement(
+	            "SELECT id_destino FROM destinos WHERE nombre = ?"
+	        );
+	        destinoStatement.setString(1, paquete.getDestino().getNombre());
+	        ResultSet destinoResult = destinoStatement.executeQuery();
 
-		        // Si el destino existe, crear el paquete
-		        PreparedStatement paqueteStatement = agregarP.prepareStatement("INSERT INTO paquetes_turisticos (nombreT,descripcion,tipo_turismo,precio,id_destino) VALUES (?,?,?,?,?)");
-		        paqueteStatement.setString(1, paquete.getNombreP());
-		        paqueteStatement.setString(2, paquete.getDescripcion());
-		        paqueteStatement.setString(3, paquete.getTipo_turismo());
-		        paqueteStatement.setDouble(4, paquete.getPrecio());
-		        paqueteStatement.setInt(5, paquete.getDestino()); // Usar el ID de destino existente
-		        
-		        int rowsInserted = paqueteStatement.executeUpdate();
-		        if (rowsInserted > 0) {
-		            System.out.println("Paquete insertado exitosamente");
-		        }
-		    } catch (SQLException e) {
-		        e.printStackTrace();
-		        System.out.println("Error al crear el paquete.");
-		    }
-		}
+	        int destinoId = 0;
+	        if (destinoResult.next()) {
+	            destinoId = destinoResult.getInt("id_destino");
+	        } else {
+	            System.out.println("Error: El destino no existe en la base de datos.");
+	            JOptionPane.showMessageDialog(null, "El destino no existe en la base de datos.");
+	            return;
+	        }
+
+	        // Crear el paquete
+	        PreparedStatement paqueteStatement = agregarP.prepareStatement(
+	            "INSERT INTO paquetes_turisticos (nombreP, descripcion, tipo_turismo, precio, id_destino) VALUES (?, ?, ?, ?, ?)"
+	        );
+	        paqueteStatement.setString(1, paquete.getNombreP());
+	        paqueteStatement.setString(2, paquete.getDescripcion());
+	        paqueteStatement.setString(3, paquete.getTipo_turismo());
+	        paqueteStatement.setDouble(4, paquete.getPrecio());
+	        paqueteStatement.setInt(5, destinoId);
+
+	        int rowsInserted = paqueteStatement.executeUpdate();
+	        if (rowsInserted > 0) {
+	            System.out.println("Paquete insertado exitosamente");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error al crear el paquete.");
+	    }
+	}
+
 	
 	public List<Paquete> listarPaquete() {
+		
+		
 		List<Paquete> paquetes = new ArrayList<>();
 		try {
-
 			PreparedStatement statement = agregarP.prepareStatement("SELECT * FROM paquetes_turisticos");
 			ResultSet resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
-				Paquete paquete1 = new Paquete(resultSet.getInt("id_paquete"),resultSet.getString("nombreT"), 
-						resultSet.getString("descripcion"),
-						resultSet.getString("tipo_turismo"), resultSet.getDouble("precio"),resultSet.getInt("id_destino") );
+			    int idDestino = resultSet.getInt("id_destino");
+			    Destino destino = destinosControlador.getDestinoById(idDestino); // recupera objeto completo
 
-				//paquete1.getDestino();
-				paquete1.setId_paquete(resultSet.getInt("id_paquete"));
-				paquetes.add(paquete1);
+			    Paquete paquete1 = new Paquete(
+			        resultSet.getInt("id_paquete"),
+			        resultSet.getString("nombreP"),
+			        resultSet.getString("descripcion"),
+			        resultSet.getString("tipo_turismo"),
+			        resultSet.getDouble("precio"),
+			        destino
+			    );
 
+			    paquetes.add(paquete1);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "error en encontrar lista");
@@ -85,34 +106,32 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 	}
 	
 
-	
-	
-	
 	public Paquete getPaqueteById(int id_paquete) {
-		// TODO Auto-generated method stub
-		Paquete PaquetePorId= new Paquete();
-		try {
-			PreparedStatement statement = agregarP.prepareStatement("SELECT * FROM paquetes_turisticos WHERE id_paquete = ?");
-			statement.setInt(1, id_paquete);
+	    Paquete paquete = null;
+	    try {
+	        PreparedStatement statement = agregarP.prepareStatement("SELECT * FROM paquetes_turisticos WHERE id_paquete = ?");
+	        statement.setInt(1, id_paquete);
+	        ResultSet resultSet = statement.executeQuery();
 
-			ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            int idDestino = resultSet.getInt("id_destino");
+	            Destino destino = destinosControlador.getDestinoById(idDestino);
 
-			if (resultSet.next()) {
-				Paquete Paquete1 = new Paquete(resultSet.getInt("id_paquete"), resultSet.getString("nombreT"), 
-					resultSet.getString("descripcion"),resultSet.getString("tipo_turismo"),
-				    resultSet.getDouble("precio"),resultSet.getInt("id_destino"));
-				
-					PaquetePorId.setId_paquete(resultSet.getInt("id_destino"));
-	            System.out.println("Destino encontrado: " + PaquetePorId.getId_paquete());
+	            paquete = new Paquete(
+	                resultSet.getInt("id_paquete"),
+	                resultSet.getString("nombreP"),
+	                resultSet.getString("descripcion"),
+	                resultSet.getString("tipo_turismo"),
+	                resultSet.getDouble("precio"),
+	                destino
+	            );
 	        } else {
-	            System.out.println("No se encontraron resultados para id_paquete = " + id_paquete);
-	        }			
-	
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return PaquetePorId;
+	            System.out.println("No se encontró el paquete con id = " + id_paquete);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return paquete;
 	}
 
 
@@ -124,7 +143,7 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		// TODO Auto-generated method stub
 		
 		try {
-			String sql = "UPDATE paquetes_turisticos SET nombreT = ?, descripcion = ?, tipo_turismo = ?, precio = ? WHERE id_paquete = ?";
+			String sql = "UPDATE paquetes_turisticos SET nombreP = ?, descripcion = ?, tipo_turismo = ?, precio = ? WHERE id_paquete = ?";
 			PreparedStatement statement = agregarP.prepareStatement(sql);
 			
 			
