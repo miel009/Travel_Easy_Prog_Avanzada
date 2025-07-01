@@ -59,7 +59,7 @@ public class DestinoTable extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         // Crear la tabla y el modelo
-        String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo", "servicios_requeridos"};
+        String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         actualizarTabla();
@@ -97,7 +97,6 @@ public class DestinoTable extends JFrame {
                         String transporte = (String) table.getValueAt(selectedRow, 8);
                        // int cantidad = (int) table.getValueAt(selectedRow, 9); // Obtener la cantidad de productos
                         String tipo_turismo = (String) table.getValueAt(selectedRow, 9);
-                        String servicios_requeridos = (String) table.getValueAt(selectedRow, 10);
                         seleccionado = controlador.getDestinoById(id_destino);
                         //mostrarImagen(seleccionado.getImagen());
                     }
@@ -209,7 +208,6 @@ public class DestinoTable extends JFrame {
             		destino.getRango_edad(),
             		destino.getTransporte(),
             		destino.getTipo_turismo(),
-            		destino.getServicios_requeridos()
             });
         }
     }
@@ -224,7 +222,7 @@ public class DestinoTable extends JFrame {
         for (Destino destino : destinos ) {
         	if(destino.getNombre().contains(criterio)) {
                 model.addRow(new Object[]{destino.getId_destino(), destino.getNombre(), destino.getDescripcion(),
-                destino.getPais(), destino.getZonaGeo() , destino.getRecomendaciones(), destino.getTemporada_ideal(),destino.getRango_edad(),destino.getTransporte(), destino.getTipo_turismo(),destino.getServicios_requeridos()});
+                destino.getPais(), destino.getZonaGeo() , destino.getRecomendaciones(), destino.getTemporada_ideal(),destino.getRango_edad(),destino.getTransporte(), destino.getTipo_turismo()});
         	}
         }
     }
@@ -251,7 +249,7 @@ public class DestinoTable extends JFrame {
                         destino.getRango_edad(),
                         destino.getTransporte(),
                         destino.getTipo_turismo(),
-                        destino.getServicios_requeridos()
+                        
                 });
             }
         }

@@ -66,8 +66,8 @@ public class Paquete {
 	public Destino getDestino() {
 		return id_destino;
 	}
-	public void setDestino(int i) {
-		this.id_destino = i;
+	public void setDestino(int id_destino) {
+		this.id_destino = new Destino();
 	}
 	@Override
 	public String toString() {

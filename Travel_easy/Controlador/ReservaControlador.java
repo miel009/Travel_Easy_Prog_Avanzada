@@ -123,13 +123,14 @@ public class ReservaControlador {
     // Otros métodos para actualizar y borrar reserva si quieres, similares
 
     // Método auxiliar para obtener Usuario por ID
+    /**/
     private Usuario getUsuarioById(int idUsuario) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1, idUsuario);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            Usuario u = new Usuario();
+            Usuario u = new Usuario(sql, sql);
             u.setId_usuario(rs.getInt("id_usuario"));
             u.setNombre(rs.getString("nombre"));
             u.setEmail(rs.getString("email"));
@@ -139,7 +140,7 @@ public class ReservaControlador {
         return null;
     }
 
-    // Método auxiliar para obtener Paquete por ID
+   
     private Paquete getPaqueteById(int idPaquete) throws SQLException {
         String sql = "SELECT * FROM paquetes_turisticos WHERE id_paquete = ?";
         PreparedStatement ps = connection.prepareStatement(sql);

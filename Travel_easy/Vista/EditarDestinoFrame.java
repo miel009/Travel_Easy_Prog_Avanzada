@@ -76,10 +76,6 @@ public class EditarDestinoFrame extends JFrame {
         tipoTurismoField = new JTextField(destino.getTipo_turismo());
         contentPane.add(tipoTurismoField);
 
-        contentPane.add(new JLabel("Servicios Requeridos:"));
-        serviciosRequeridosField = new JTextField(destino.getServicios_requeridos());
-        contentPane.add(serviciosRequeridosField);
-
         JButton btnGuardar = new JButton("Guardar");
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +95,7 @@ public class EditarDestinoFrame extends JFrame {
         destino.setRango_edad(Integer.parseInt(rangoEdadField.getText()));
         destino.setTransporte(transporteField.getText());
         destino.setTipo_turismo(tipoTurismoField.getText());
-        destino.setServicios_requeridos(serviciosRequeridosField.getText());
+        
 
         controlador.updateDestino(destino);
         JOptionPane.showMessageDialog(this, "Destino actualizado");

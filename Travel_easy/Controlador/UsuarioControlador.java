@@ -19,6 +19,23 @@ public class UsuarioControlador implements UserRepository {
         this.connection = DatabaseConnection.getInstance().getConnection();
     }
     
+    
+    public boolean validarCredenciales(String email, String contrasena) {
+        try {
+            String query = "SELECT COUNT(*) FROM usuario WHERE email = ? AND contrasena = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, email);
+            stmt.setString(2, contrasena);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public List<Usuario> getAllUsers() {
@@ -28,8 +45,7 @@ public class UsuarioControlador implements UserRepository {
             ResultSet resultSet = statement.executeQuery();
        
             while (resultSet.next()) {
-            	Usuario user = new Usuario(resultSet.getInt("id_usuario"),  resultSet.getString("nombre"), resultSet.getString("email"),
-            			resultSet.getString("contrasena"));
+            	Usuario user = new Usuario(resultSet.getString("email"), resultSet.getString("contrasena"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -50,8 +66,7 @@ public class UsuarioControlador implements UserRepository {
             ResultSet resultSet = statement.executeQuery();
             //itera y me trae info del usuario
             if (resultSet.next()) {
-            	usuario = new Usuario(resultSet.getInt("id_usuario"),resultSet.getString("nombre"), resultSet.getString("email"),
-            			resultSet.getString("contrasena"));
+            	usuario = new Usuario(resultSet.getString("email"), resultSet.getString("contrasena"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,10 +77,10 @@ public class UsuarioControlador implements UserRepository {
 	@Override
     public void addUser(Usuario usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (nombre, email,contrasena) VALUES (?, ?, ?)");
-            statement.setString(1, usuario.getNombre());
-            statement.setString(2, usuario.getEmail());
-            statement.setString(3, usuario.getContrasena());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario ( email,contrasena) VALUES ( ?, ?)");
+            
+            statement.setString(1, usuario.getEmail());
+            statement.setString(2, usuario.getContrasena());
             
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -79,11 +94,11 @@ public class UsuarioControlador implements UserRepository {
 	@Override
     public void updateUser(Usuario usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE usuario SET nombre = ?, email = ? , contrasena = ? WHERE id = ?");
-            statement.setString(1, usuario.getNombre());
-            statement.setString(2, usuario.getEmail());
-            statement.setString(3, usuario.getContrasena());
-            statement.setInt(4, usuario.getId_usuario());
+            PreparedStatement statement = connection.prepareStatement("UPDATE usuario SET  email = ? , contrasena = ? WHERE id = ?");
+            
+            statement.setString(1, usuario.getEmail());
+            statement.setString(2, usuario.getContrasena());
+            statement.setInt(3, usuario.getId_usuario());
     
             
             int rowsUpdated = statement.executeUpdate();

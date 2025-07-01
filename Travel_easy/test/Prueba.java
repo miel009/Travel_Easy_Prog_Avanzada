@@ -16,7 +16,7 @@ public class Prueba {
         DestinosControlador controlador = new DestinosControlador();
         //EJEMPLO DE DESTINO ID:
         Destino destino = new Destino("Patagonia", "Chile y Argentina", "Sur",
-                "Llevar ropa de abrigo y equipo de senderismo.", "Noviembre a Marzo","Noviembre a Marzo",18, "Transporte terrestre y aéreo", "Aventura", "Guías turísticos equipo de senderismo");
+                "Llevar ropa de abrigo y equipo de senderismo.", "Noviembre a Marzo","Noviembre a Marzo",18, "Transporte terrestre y aéreo", "Aventura");
 
         boolean result = controlador.addDestino(destino);
 
@@ -31,7 +31,7 @@ public void addDestinoIncompleto() {
     DestinosControlador controlador = new DestinosControlador();
 
     Destino destino = new Destino("Patagonia", "Chile y Argentina", "Sur",
-            "Llevar ropa de abrigo y equipo de senderismo.", null,"Noviembre a Marzo",18, "Transporte terrestre y aéreo", "Aventura", "Guías turísticos equipo de senderismo");
+            "Llevar ropa de abrigo y equipo de senderismo.", null,"Noviembre a Marzo",18, "Transporte terrestre y aéreo", "Aventura");
 
     boolean result = controlador.addDestino(destino);
 

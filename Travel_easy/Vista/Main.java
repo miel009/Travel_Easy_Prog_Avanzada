@@ -6,13 +6,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import Modelo.Destino;
 import Modelo.Paquete;
-import Modelo.Servicio_ad;
 import Modelo.Usuario;
 import Controlador.UsuarioControlador;
 import Interfaces.Mostrar_Destinos;
 import Controlador.DestinosControlador;
 import Controlador.PaqueteControlador;
-import Controlador.ServiciosAdControlador;
 
 
 public class Main {
@@ -24,7 +22,7 @@ public class Main {
 		UsuarioControlador controlador = new UsuarioControlador();
 		DestinosControlador controladorD = new DestinosControlador(); 
 		PaqueteControlador controladorPaquete =new PaqueteControlador();
-		ServiciosAdControlador controladorServicios = new ServiciosAdControlador();		
+		
 		
         String[] ingreso = {"Empleado Turismo", "Empleado Vtas", "Salir"};
       
@@ -161,10 +159,7 @@ public class Main {
                             	*/
                                 
                             case 2: // SERVICIOS ADICIONALES AGREGAR
-                            	Servicio_ad nuevoServicio = Servicio_ad.obtenerDatosServicio();
-                                if (nuevoServicio != null) {
-                                	controladorServicios.addServicio(nuevoServicio);
-                                }
+                            	
                                 break;
                                 
                             case 3:    //ME TRAE LA LISTA DE DESTINOS, Y BUSCA UNO POR NOMBRE                       	

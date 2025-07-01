@@ -26,7 +26,7 @@ public class PantallaDeInicio extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField nombreUsuarioINPUT;
+	
 	private JTextField Email_IngresoINPUT;
 	private JPasswordField ContrasenaINPUT;
 	
@@ -68,7 +68,7 @@ public class PantallaDeInicio extends JFrame {
 		contentPane.add(bienvenido);
 		
 		Email_IngresoINPUT = new JTextField();
-		Email_IngresoINPUT.setBounds(129, 270, 246, 42);
+		Email_IngresoINPUT.setBounds(121, 142, 246, 42);
 		contentPane.add(Email_IngresoINPUT);
 		Email_IngresoINPUT.setColumns(10);
 		
@@ -76,112 +76,85 @@ public class PantallaDeInicio extends JFrame {
 		panel.setBounds(202, 156, 10, 0);
 		contentPane.add(panel);
 		
-		JLabel usuarioIngreso = new JLabel("Nombre usuario");
-		usuarioIngreso.setBounds(129, 128, 174, 26);
-		usuarioIngreso.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 18));
-		contentPane.add(usuarioIngreso);
-		
 		//Peticion de mail
 		JLabel email_Ingreso = new JLabel("Email");
-		email_Ingreso.setBounds(128, 249, 161, 26);
+		email_Ingreso.setBounds(121, 115, 161, 26);
 		email_Ingreso.setFont(new Font("Candara Light", Font.BOLD, 18));
 		contentPane.add(email_Ingreso);
 	
-		// notificacion de error
-		JLabel nombre_input_error = new JLabel("Error, ingrese nombre valido");
-		nombre_input_error.setBounds(129, 203, 211, 16);
-		nombre_input_error.setForeground(new Color(255, 0, 0));
-		nombre_input_error.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 13));
-		contentPane.add(nombre_input_error);
-		nombre_input_error.setVisible(false);
+		
 		
 		JLabel email_Input_error = new JLabel("Error, intente otra vez email invalido");
-		email_Input_error.setBounds(129, 319, 211, 16);
+		email_Input_error.setBounds(121, 194, 211, 16);
 		email_Input_error.setForeground(Color.RED);
 		email_Input_error.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(email_Input_error);
 		email_Input_error.setVisible(false);
 		
 		JLabel usuarioIngreso_1 = new JLabel("Contraseña");
-		usuarioIngreso_1.setBounds(129, 359, 120, 26);
+		usuarioIngreso_1.setBounds(121, 237, 120, 26);
 		usuarioIngreso_1.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 18));
 		contentPane.add(usuarioIngreso_1);
 		
 		ContrasenaINPUT = new JPasswordField();
-		ContrasenaINPUT.setBounds(129, 383, 246, 42);
+		ContrasenaINPUT.setBounds(121, 269, 246, 42);
 		contentPane.add(ContrasenaINPUT);
 		
 		JLabel contrasena_Input_error = new JLabel("Error ingrese una contraseña valida");
 		contrasena_Input_error.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 13));
 		contrasena_Input_error.setForeground(new Color(255, 0, 0));
-		contrasena_Input_error.setBounds(129, 426, 232, 16);
+		contrasena_Input_error.setBounds(121, 322, 232, 16);
 		contentPane.add(contrasena_Input_error);
 		contrasena_Input_error.setVisible(false);
 		
-		
-		nombreUsuarioINPUT = new JTextField();
-		nombreUsuarioINPUT.setColumns(10);
-		nombreUsuarioINPUT.setBounds(129, 156, 246, 42);
-		contentPane.add(nombreUsuarioINPUT);
+
 
 		JLabel lblError = new JLabel("");
 		lblError.setBounds(88, 98, 333, 18);
 		contentPane.add(lblError);
 		
 		JButton btnNewButton = new JButton("INICIAR");
-		btnNewButton.setBounds(176, 496, 140, 37);
+		btnNewButton.setBounds(177, 371, 140, 37);
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean flag= true;
-				//USUARIO
-				
-			String respuesta = Usuario.Ingresar(nombreUsuarioINPUT.getText(), Email_IngresoINPUT.getText(), ContrasenaINPUT.getText());
-				
-				//NOMBRE
-				if(nombreUsuarioINPUT.getText().isEmpty()) {
-					nombre_input_error.setVisible(true);
-					flag=false;
-				}else {
-					nombre_input_error.setVisible(false);
-					
-				}
-				
-				// EMAIL
-				if(Email_IngresoINPUT.getText().isEmpty()) {
-					email_Input_error.setVisible(true);
-					flag=false;
-				}else {
-					email_Input_error.setVisible(false);
-					
-				}
-				 
-				// CONTRASENA
-				if(ContrasenaINPUT.getText().isEmpty()) {
-					contrasena_Input_error.setVisible(true);	
-					flag=false;
-				}else {
-					contrasena_Input_error.setVisible(false);
-					
-				}
-			
-				
-				if(flag && respuesta.equals("Ingreso con exito!")){
-					Pantalla_2 nueva = new Pantalla_2();
-					dispose();
-				}else {
-					lblError.setText(respuesta);
-					lblError.setVisible(true);
-					JOptionPane.showMessageDialog(null, "Error, intente otra vez");
-					
-					
-				}
-						
-				
-				
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        boolean flag = true;
+
+		        String email = Email_IngresoINPUT.getText();
+		        String contrasena = ContrasenaINPUT.getText();
+
+		        // EMAIL
+		        if (email.isEmpty()) {
+		            email_Input_error.setVisible(true);
+		            flag = false;
+		        } else {
+		            email_Input_error.setVisible(false);
+		        }
+
+		        // CONTRASEÑA
+		        if (contrasena.isEmpty()) {
+		            contrasena_Input_error.setVisible(true);
+		            flag = false;
+		        } else {
+		            contrasena_Input_error.setVisible(false);
+		        }
+
+		        if (flag) {
+		            String respuesta = Usuario.Ingresar(email, contrasena);
+		            if (respuesta.equals("Ingreso con exito!")) {
+		                Pantalla_2 nueva = new Pantalla_2();
+		                nueva.setVisible(true);
+		                dispose();
+		            } else {
+		                lblError.setText(respuesta);
+		                lblError.setVisible(true);
+		                JOptionPane.showMessageDialog(null, "Error, intente otra vez");
+		            }
+		        }
+		    }
 		});
-		contentPane.add(btnNewButton);
+
 		
+		contentPane.add(btnNewButton);
 		
 		
 		

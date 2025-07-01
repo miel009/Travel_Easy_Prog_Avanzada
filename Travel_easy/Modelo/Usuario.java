@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import Controlador.UsuarioControlador;
@@ -9,13 +11,21 @@ public class Usuario extends Persona {
 	private int id_usuario;
 	private String email;
 	private String contrasena;
-	private Persona Persona;
 	
-
-// al hacer funcionalidad de registro de nuevo usuario: - usar herencia persona->usuario
-
+	public Usuario(int id_usuario, int id_persona, String nombre, String apellido, int dni, String email, String contrasena) {
+	        super(id_persona, nombre, apellido, dni);
+	        this.id_usuario = id_usuario;
+	        this.email = email;
+	        this.contrasena = contrasena;
+	}
 	
-
+	// Constructor para login
+	public Usuario(String email, String contrasena) {
+	    super(0, "", "", 0);
+	    this.email = email;
+	    this.contrasena = contrasena;
+	    
+	}
 
 	public int getId_usuario() {
 		return id_usuario;
@@ -24,16 +34,6 @@ public class Usuario extends Persona {
 
 	public void setId_usuario(int id_usuario) {
 		this.id_usuario = id_usuario;
-	}
-
-
-	public String getNombre() {
-		return nombre;
-	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 
@@ -60,7 +60,7 @@ public class Usuario extends Persona {
 
 	@Override
 	public String toString() {
-		return "Usuario [id_usuario=" + id_usuario + ", nombre=" + nombre + ", email=" + email + ", contrasena="
+		return "Usuario [id_usuario=" + id_usuario + ", nombre=" + getNombre() + ", email=" + email + ", contrasena="
 				+ contrasena + "]";
 	}
 
@@ -78,31 +78,23 @@ public class Usuario extends Persona {
     	}
 
 
-	public static String Ingresar(String nombre, String email,  String contrasena) {
-    	    
-		if (nombre.isBlank() ) {
-			return "Intente ingresar el nombre otra vez";
-							
-			} else {
-			if (email.isBlank()) {
-				return "Intente ingresar el email otra vez";
-			} else {									
-				
-	
-    	    UsuarioControlador controlador = new UsuarioControlador();
-    	    if (controlador.getAllUsers().isEmpty()) {
-    	    	return  "No hay usuarios con los datos proporcionados";
-				
-			} else {
-				
-	    	    for ( Usuario usuario : controlador.getAllUsers()) {
-					if (usuario.getNombre().equalsIgnoreCase(nombre) && usuario.getEmail().equalsIgnoreCase(email) && usuario.getContrasena().equalsIgnoreCase(contrasena) ) {
-						return "Ingreso con exito!";
-				    	
-					}
-				}
-			}
-    	    return "No se encontro resultados";
-	}  
-			} } 
+	public static String Ingresar(String email, String contrasena) {
+	    if (email.isBlank()) {
+	        return "Intente ingresar el email otra vez";
+	    } else if (contrasena.isBlank()) {
+	        return "Intente ingresar la contraseña otra vez";
+	    } else {
+	        UsuarioControlador controlador = new UsuarioControlador();
+	        List<Usuario> usuarios = controlador.getAllUsers();
+
+	        for (Usuario usuario : usuarios) {
+	            if (usuario.getEmail().equalsIgnoreCase(email)
+	                && usuario.getContrasena().equalsIgnoreCase(contrasena)) {
+	                return "¡Ingreso con éxito!";
+	            }
+	        }
+
+	        return "No se encontró ningún usuario con los datos proporcionados";
+	    }
+	}
 }
