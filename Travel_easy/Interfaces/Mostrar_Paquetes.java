@@ -16,6 +16,4 @@ public interface Mostrar_Paquetes {
 												
 	void deletePaquete(int id_paquete);	//ELIMINA PAQUETE BD
 
-	//Paquete detallarPaqueteTuristico(String nombrePaquete); //POdria ser para descripcion
-
 }

@@ -66,7 +66,7 @@ public class PaquetesTabla extends JFrame {
                 dispose(); // Cierra la ventana actual
             }
         });
-        btnVolver.setBounds(783, 346, 128, 30);
+        btnVolver.setBounds(955, 346, 128, 30);
         contentPane.add(btnVolver);
 
         // Crear la tabla y el modelo
@@ -115,7 +115,7 @@ public class PaquetesTabla extends JFrame {
 
         // Botón para eliminar el producto seleccionado
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(523, 346, 120, 30);
+        btnEliminar.setBounds(580, 346, 120, 30);
         contentPane.add(btnEliminar);
         btnEliminar.addActionListener(new ActionListener() {
             @Override
@@ -133,16 +133,16 @@ public class PaquetesTabla extends JFrame {
 
         // Botón para editar el producto seleccionado
         JButton btnEditar = new JButton("Editar");
-        btnEditar.setBounds(653, 346, 120, 30);
+        btnEditar.setBounds(428, 346, 120, 30);
         contentPane.add(btnEditar);
         
         filtrar = new JTextField();
-        filtrar.setBounds(253, 346, 101, 25);
+        filtrar.setBounds(25, 349, 101, 25);
         contentPane.add(filtrar);
         filtrar.setColumns(10);
         
         JLabel lblNewLabel = new JLabel("Criterio");
-        lblNewLabel.setBounds(253, 326, 62, 14);
+        lblNewLabel.setBounds(27, 324, 62, 14);
         contentPane.add(lblNewLabel);
         
         JButton btnNewButton = new JButton("Filtrar");
@@ -153,7 +153,19 @@ public class PaquetesTabla extends JFrame {
         		
         	}
         });
-        btnNewButton.setBounds(364, 346, 113, 28);
+        
+     // Botón para agregar nuevo paquete
+        JButton btnNuevo = new JButton("Nuevo");
+        btnNuevo.setBounds(288, 346, 120, 30);
+        contentPane.add(btnNuevo);
+        btnNuevo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                EditarPaquete nuevoPaquete = new EditarPaquete(null, controlador);
+                nuevoPaquete.setVisible(true);
+            }
+        });
+        
+        btnNewButton.setBounds(140, 347, 113, 28);
         contentPane.add(btnNewButton);
         btnEditar.addActionListener(new ActionListener() {
             @Override
@@ -170,6 +182,8 @@ public class PaquetesTabla extends JFrame {
             }
         });
     }
+    
+    
 
     public void actualizarTabla() {
         // Limpiar el modelo de la tabla
@@ -219,4 +233,6 @@ public class PaquetesTabla extends JFrame {
             imagenLabel.setIcon(null);
         }
     }
+    
+    
 }

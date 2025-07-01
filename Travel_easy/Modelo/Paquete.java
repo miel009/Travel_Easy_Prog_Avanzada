@@ -62,22 +62,12 @@ public class Paquete {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
-
-	
-
-
-
-	/*@Override
-	public String toString() {
-		return "Paquete [id_paquete=" + id_paquete + ", descripcion=" + descripcion + ", tipo_turismo=" + tipo_turismo
-				+ ", precio=" + precio + ", destino=" + destino + ", servicio_paquete=" + servicio_paquete + "]";
-	}*/
 	
 	public Destino getDestino() {
 		return id_destino;
 	}
-	public void setDestino(Destino destino) {
-		this.id_destino = destino;
+	public void setDestino(int i) {
+		this.id_destino = i;
 	}
 	@Override
 	public String toString() {
@@ -118,25 +108,7 @@ public class Paquete {
     }
 
 	
-	// add paquete
-/*	   public static Paquete obtenerDatosPaquete() {
-	        try {
-	        	String nombreP = obtenerStringNoVacio("Ingrese nombre del paquete:");
-	            String descripcion = obtenerStringNoVacio("Ingrese descripción del paquete:");
-	            String tipo_turismo = obtenerStringNoVacio("Ingrese tipo de turismo:");
-	            double precio = obtenerPrecio();
-	            Destino destino = Destino.obtenerDatosDestino();
-	           //Servicio_ad servicioAd = Servicio_ad.obtenerDatosServicio();
-	           
-	           
-
-	            return new Paquete(nombreP, descripcion, tipo_turismo, precio);
-	        } catch (Exception e) {
-	            JOptionPane.showMessageDialog(null, "Error. Asegúrese de ingresar datos correctos.");
-	            e.printStackTrace();
-	            return null;
-	        }
-	    }*/
+	
 	
 	
 }

@@ -19,7 +19,7 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            JOptionPane.showMessageDialog(null, "Se conecto");
+            JOptionPane.showMessageDialog(null, "CONEXION EXITOSA");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "No se conecto");

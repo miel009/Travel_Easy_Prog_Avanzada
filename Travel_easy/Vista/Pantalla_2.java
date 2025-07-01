@@ -65,7 +65,7 @@ public class Pantalla_2 extends JFrame {
 				
 			}
 		});
-		boton_Destinos.setBounds(238, 124, 140, 41);
+		boton_Destinos.setBounds(238, 132, 140, 41);
 		contentPane.add(boton_Destinos);
 		
 		JButton Boton_Paquete = new JButton("Paquetes");
@@ -77,12 +77,23 @@ public class Pantalla_2 extends JFrame {
 			}
 			
 		});
-		Boton_Paquete.setBounds(238, 195, 140, 41);
+		Boton_Paquete.setBounds(238, 214, 140, 41);
 		contentPane.add(Boton_Paquete);
 		
 		JLabel opciones_para_tabla = new JLabel("Elija una opcion:");
 		opciones_para_tabla.setFont(new Font("Candara Light", Font.BOLD | Font.ITALIC, 18));
 		opciones_para_tabla.setBounds(238, 87, 209, 26);
 		contentPane.add(opciones_para_tabla);
+		
+		JButton btnHacerReserva = new JButton("Hacer una reserva");
+		btnHacerReserva.setBounds(238, 291, 140, 41); // Ajusta ubicación y tamaño según tu diseño
+		contentPane.add(btnHacerReserva);
+
+		btnHacerReserva.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        Reserva reserva = new Reserva();
+		        reserva.setVisible(true);
+		    }
+		});
 	}
 }

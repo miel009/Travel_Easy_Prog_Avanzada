@@ -28,7 +28,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 		try {
 			PreparedStatement statement = agregar
 					.prepareStatement("INSERT INTO destinos (nombre,descripcion,pais,zonaGeo,"
-							+ "recomendaciones,temporada_ideal,rango_edad,transporte,tipo_turismo,servicios_requeridos) VALUES (?,?,?,?,?,?,?,?,?,?)");
+							+ "recomendaciones,temporada_ideal,rango_edad,transporte,tipo_turismo,servicios_requeridos) VALUES (?,?,?,?,?,?,?,?,?)");
 
 			statement.setString(1, destino.getNombre());
 			statement.setString(2, destino.getDescripcion());
@@ -39,7 +39,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 			statement.setInt(7, destino.getRango_edad());
 			statement.setString(8, destino.getTransporte());
 			statement.setString(9, destino.getTipo_turismo());
-			statement.setString(10, destino.getServicios_requeridos());
+			
 
 			int rowsInserted = statement.executeUpdate();
 			if (rowsInserted > 0) {
@@ -60,7 +60,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 	@Override
 	public void updateDestino(Destino destino) {
 		try {
-			String sql = "UPDATE destinos SET nombre = ?, descripcion = ?, pais = ?, zonaGeo = ?, recomendaciones = ?, temporada_ideal = ?, rango_edad = ?, transporte = ?, tipo_turismo = ?, servicios_requeridos = ? WHERE id_destino = ?";
+			String sql = "UPDATE destinos SET nombre = ?, descripcion = ?, pais = ?, zonaGeo = ?, recomendaciones = ?, temporada_ideal = ?, rango_edad = ?, transporte = ?, tipo_turismo = ? WHERE id_destino = ?";
 			PreparedStatement statement = agregar.prepareStatement(sql);
 
 			statement.setString(1, destino.getNombre());
@@ -72,7 +72,6 @@ public class DestinosControlador implements Mostrar_Destinos {
 			statement.setInt(7, destino.getRango_edad());
 			statement.setString(8, destino.getTransporte());
 			statement.setString(9, destino.getTipo_turismo());
-			statement.setString(10, destino.getServicios_requeridos());
 			statement.setInt(11, destino.getId_destino()); 
 			
 
@@ -102,7 +101,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 						resultSet.getString("pais"), resultSet.getString("zonaGeo"),
 						resultSet.getString("recomendaciones"), resultSet.getString("temporada_ideal"),
 						resultSet.getInt("rango_edad"), resultSet.getString("transporte"),
-						resultSet.getString("tipo_turismo"), resultSet.getString("servicios_requeridos"));
+						resultSet.getString("tipo_turismo"));
 
 				destinos1.setId_destino(resultSet.getInt("id_destino"));
 				destinos.add(destinos1);
@@ -136,8 +135,8 @@ public class DestinosControlador implements Mostrar_Destinos {
 	                resultSet.getString("temporada_ideal"),
 	                resultSet.getInt("rango_edad"), 
 	                resultSet.getString("transporte"),
-	                resultSet.getString("tipo_turismo"), 
-	                resultSet.getString("servicios_requeridos")
+	                resultSet.getString("tipo_turismo")
+	                
 	                
 	            );
 	            System.out.println("Destino encontrado: " + destinoPorId.getNombre());

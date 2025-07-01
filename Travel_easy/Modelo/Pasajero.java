@@ -1,39 +1,83 @@
 package Modelo;
 
-public class Pasajero extends Persona{
-	 
-	private String email;
-	private int edad; 
-	private boolean c_especial; 
-	
-	public Pasajero(String nombre, String apellido, int dni, String email, int edad, boolean c_especial) {
-		super(nombre, apellido, dni);
-		this.email = email;
-		this.edad = edad;
-		this.c_especial = c_especial;
+public class Pasajero {
+    private int id_pasajero;
+    private String nombre;
+    private String apellido;
+    private String documento;
+    private String telefono;
+    private String email;
+
+    
+    public Pasajero(int id_pasajero, String nombre, String apellido, String documento, String telefono, String email) {
+        this.id_pasajero = id_pasajero;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.documento = documento;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
+    
+    public Pasajero(String nombre, String apellido, String documento, String telefono, String email) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.documento = documento;
+        this.telefono = telefono;
+        this.email = email;
+    }
+
+    public Pasajero() {
+    	
+    }
+    
+    public int getIdPasajero() {
+        return id_pasajero;
+    }
+
+    public void setIdPasajero(int id_pasajero) {
+        this.id_pasajero = id_pasajero;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+	public String getApellido() {
+		return apellido;
 	}
-	
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getEdad() {
-		return edad;
-	}
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-	public boolean isC_especial() {
-		return c_especial;
-	}
-	public void setC_especial(boolean c_especial) {
-		this.c_especial = c_especial;
-	}
-	@Override
-	public String toString() {
-		return "Pasajero [email=" + email + ", edad=" + edad + ", c_especial=" + c_especial + "]";
-	}
-
+    
+    
 }

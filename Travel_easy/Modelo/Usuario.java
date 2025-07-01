@@ -4,30 +4,17 @@ import javax.swing.JOptionPane;
 
 import Controlador.UsuarioControlador;
 
-public class Usuario {
+public class Usuario extends Persona {
 	
 	private int id_usuario;
-	private String nombre;
 	private String email;
 	private String contrasena;
+	private Persona Persona;
 	
 
-
-
-	public Usuario(int id_usuario, String nombre, String email, String contrasena) {
-		super();
-		this.id_usuario = id_usuario;
-		this.nombre = nombre;
-		this.email = email;
-		this.contrasena = contrasena;
-	}
+// al hacer funcionalidad de registro de nuevo usuario: - usar herencia persona->usuario
 
 	
-	public Usuario() {
-		
-	}
-
-
 
 
 	public int getId_usuario() {

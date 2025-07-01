@@ -39,6 +39,8 @@ public class UsuarioControlador implements UserRepository {
     }
 
     @Override
+    
+// me trae a los usuarios(por ID)
     public Usuario getUserById(int id_usuario) {
         Usuario usuario = null;
         try {
@@ -46,9 +48,9 @@ public class UsuarioControlador implements UserRepository {
             statement.setInt(1, id_usuario);
             
             ResultSet resultSet = statement.executeQuery();
-            
+            //itera y me trae info del usuario
             if (resultSet.next()) {
-            	Usuario usuario1 = new Usuario(resultSet.getInt("id_usuario"),resultSet.getString("nombre"), resultSet.getString("email"),
+            	usuario = new Usuario(resultSet.getInt("id_usuario"),resultSet.getString("nombre"), resultSet.getString("email"),
             			resultSet.getString("contrasena"));
             }
         } catch (SQLException e) {
@@ -79,7 +81,9 @@ public class UsuarioControlador implements UserRepository {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE usuario SET nombre = ?, email = ? , contrasena = ? WHERE id = ?");
             statement.setString(1, usuario.getNombre());
-            //statement.setString(2, usuario.getEmail());
+            statement.setString(2, usuario.getEmail());
+            statement.setString(3, usuario.getContrasena());
+            statement.setInt(4, usuario.getId_usuario());
     
             
             int rowsUpdated = statement.executeUpdate();
@@ -94,7 +98,7 @@ public class UsuarioControlador implements UserRepository {
     @Override
     public void deleteUser(int id_usuario) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM usuario WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");
             statement.setInt(1, id_usuario);
             
             int rowsDeleted = statement.executeUpdate();

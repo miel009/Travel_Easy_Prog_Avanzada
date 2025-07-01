@@ -13,11 +13,11 @@ public class Destino {
 	private int rango_edad; 
 	private String transporte;
 	private String tipo_turismo;
-	private String servicios_requeridos;
+	
 	
 	
 	public Destino(String nombre, String descripcion, String pais, String zonaGeo,
-			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo,String servicios_requeridos) {
+			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo) {
 		
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -28,11 +28,11 @@ public class Destino {
 		this.rango_edad = rango_edad;
 		this.transporte = transporte;
 		this.tipo_turismo = tipo_turismo;
-		this.servicios_requeridos= servicios_requeridos;
+		
 	}
 
 	public Destino( int id_destino, String nombre, String descripcion, String pais, String zonaGeo,
-			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo,String servicios_requeridos) {
+			String recomendaciones, String temporada_ideal, int rango_edad, String transporte, String tipo_turismo) {
 		this.id_destino = id_destino;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -43,7 +43,7 @@ public class Destino {
 		this.rango_edad = rango_edad;
 		this.transporte = transporte;
 		this.tipo_turismo = tipo_turismo;
-		this.servicios_requeridos= servicios_requeridos;
+		
 	}
 	
 	public Destino() {
@@ -116,12 +116,6 @@ public class Destino {
 		this.tipo_turismo = tipo_turismo;
 	}
 	
-	public String getServicios_requeridos() {
-		return servicios_requeridos;
-	}
-	public void setServicios_requeridos(String servicios_requeridos) {
-		this.servicios_requeridos = servicios_requeridos;
-	}
 	
 	
     
@@ -137,8 +131,7 @@ public class Destino {
 	           "Temporada Ideal: " + temporada_ideal + "\n" +
 	           "Rango de Edad: " + rango_edad + "\n" +
 	           "Transporte: " + transporte + "\n" +
-	           "Tipo de Turismo: " + tipo_turismo + "\n" +
-	           "Servicios Requeridos: " + servicios_requeridos;
+	           "Tipo de Turismo: " + tipo_turismo ;
 	}
 
 	// Métodos de validación
@@ -188,10 +181,10 @@ public class Destino {
             int rangoEdad = obtenerRangoEdad();
             String transp = obtenerStringNoVacio("Ingrese tipo de transporte:");
             String tipoTurismo = obtenerStringNoVacio("Ingrese tipo de turismo:");
-            String serviciosAd = obtenerStringNoVacio("Ingrese servicios adicionales:");
+            
 
             return new Destino(nombre, pais, zonaGeo, descrip, recomendaciones, temporada_ideal,
-                    rangoEdad, transp, tipoTurismo, serviciosAd);
+                    rangoEdad, transp, tipoTurismo);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error. Asegúrese de ingresar datos correctos.");
             e.printStackTrace();
