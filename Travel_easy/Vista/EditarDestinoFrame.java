@@ -22,7 +22,6 @@ public class EditarDestinoFrame extends JFrame {
     private JTextField rangoEdadField;
     private JTextField transporteField;
     private JTextField tipoTurismoField;
-    private JTextField serviciosRequeridosField;
     private Destino destino;
     private DestinosControlador controlador;
     private DestinoTable destinoTable;

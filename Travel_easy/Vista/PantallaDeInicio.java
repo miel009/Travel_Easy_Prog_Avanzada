@@ -76,7 +76,7 @@ public class PantallaDeInicio extends JFrame {
 		panel.setBounds(202, 156, 10, 0);
 		contentPane.add(panel);
 		
-		//Peticion de mail
+		
 		JLabel email_Ingreso = new JLabel("Email");
 		email_Ingreso.setBounds(121, 115, 161, 26);
 		email_Ingreso.setFont(new Font("Candara Light", Font.BOLD, 18));

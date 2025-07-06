@@ -84,17 +84,13 @@ public class Usuario extends Persona {
 	    } else if (contrasena.isBlank()) {
 	        return "Intente ingresar la contraseña otra vez";
 	    } else {
-	        UsuarioControlador controlador = new UsuarioControlador();
-	        List<Usuario> usuarios = controlador.getAllUsers();
-
-	        for (Usuario usuario : usuarios) {
-	            if (usuario.getEmail().equalsIgnoreCase(email)
-	                && usuario.getContrasena().equalsIgnoreCase(contrasena)) {
-	                return "¡Ingreso con éxito!";
-	            }
-	        }
-
-	        return "No se encontró ningún usuario con los datos proporcionados";
+	    	  UsuarioControlador controlador = new UsuarioControlador();
+	          Usuario usuario = controlador.verificarUsuario(email, contrasena);
+	    	  if (usuario != null) {
+	              return "Ingreso con exito!";
+	          } else {
+	              return "No se encontró ningún usuario con los datos proporcionados";
+	          }
 	    }
 	}
 }

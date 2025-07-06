@@ -20,32 +20,60 @@ public class UsuarioControlador implements UserRepository {
     }
     
     
-    public boolean validarCredenciales(String email, String contrasena) {
+    public Usuario verificarUsuario(String email, String contrasena) {
+        Connection conn = DatabaseConnection.getInstance().getConnection();
+        Usuario usuario = null;
         try {
-            String query = "SELECT COUNT(*) FROM usuario WHERE email = ? AND contrasena = ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, email);
-            stmt.setString(2, contrasena);
-            ResultSet rs = stmt.executeQuery();
+            String sql = "SELECT usuario.*, persona.nombre, persona.apellido, persona.dni " +
+                         "FROM usuario JOIN persona ON usuario.id_persona = persona.id_persona " +
+                         "WHERE usuario.email = ? AND usuario.contrasena = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, contrasena);
+            ResultSet rs = ps.executeQuery();
 
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
+            if (rs.next()) {
+               
+                int id_usuario = rs.getInt("id_usuario");
+                int id_persona = rs.getInt("id_persona");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                int dni = rs.getInt("dni");
+                String correo = rs.getString("email");
+                String pass = rs.getString("contrasena");
+
+                usuario = new Usuario(id_usuario, id_persona, nombre, apellido, dni, correo, pass);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return usuario;
     }
+
+
 
     @Override
     public List<Usuario> getAllUsers() {
         List<Usuario> users = new ArrayList<>();
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario ");
+            String query = "SELECT u.id_usuario, u.email, u.contrasena, "
+                         + "p.id_persona, p.nombre, p.apellido, p.dni "
+                         + "FROM usuario u "
+                         + "JOIN persona p ON u.id_persona = p.id_persona";
+                         
+            PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-       
+
             while (resultSet.next()) {
-            	Usuario user = new Usuario(resultSet.getString("email"), resultSet.getString("contrasena"));
+                Usuario user = new Usuario(
+                    resultSet.getInt("id_usuario"),
+                    resultSet.getInt("id_persona"),
+                    resultSet.getString("nombre"),
+                    resultSet.getString("apellido"),
+                    resultSet.getInt("dni"),
+                    resultSet.getString("email"),
+                    resultSet.getString("contrasena")
+                );
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -53,6 +81,7 @@ public class UsuarioControlador implements UserRepository {
         }
         return users;
     }
+
 
     @Override
     
@@ -64,7 +93,7 @@ public class UsuarioControlador implements UserRepository {
             statement.setInt(1, id_usuario);
             
             ResultSet resultSet = statement.executeQuery();
-            //itera y me trae info del usuario
+            
             if (resultSet.next()) {
             	usuario = new Usuario(resultSet.getString("email"), resultSet.getString("contrasena"));
             }
@@ -84,7 +113,7 @@ public class UsuarioControlador implements UserRepository {
             
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("Usuario insertado exitosamente");
+                System.out.println("Usu  ario insertado exitosamente");
             }
         } catch (SQLException e) {
             e.printStackTrace();           

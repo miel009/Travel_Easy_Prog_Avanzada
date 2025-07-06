@@ -53,6 +53,9 @@ public class Destino {
 	    this.id_destino = id_destino;
 	    this.nombre = nombre;
 	}
+	public Destino(String nombre) {
+	    this.nombre = nombre;
+	}
 	
 	
 	public int getId_destino() {
@@ -133,6 +136,7 @@ public class Destino {
 	           "Transporte: " + transporte + "\n" +
 	           "Tipo de Turismo: " + tipo_turismo ;
 	}
+
 
 	// Métodos de validación
     private static String obtenerStringNoVacio(String mensaje) {

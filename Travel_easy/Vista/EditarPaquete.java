@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import Controlador.PaqueteControlador;
 import Modelo.Paquete;
+import java.util.List;
 
 public class EditarPaquete extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -17,13 +18,20 @@ public class EditarPaquete extends JFrame {
     private JTextField descripcionField;
     private JTextField tipo_turismoField;
     private JTextField  precioField;
+    private JComboBox<String> destinoCombo;
+    private PaquetesTabla tabla;
+   
+
  
     private Paquete paquete;
     private PaqueteControlador controlador;
+    
 
-    public EditarPaquete(Paquete paquete, PaqueteControlador controlador) {
+    public EditarPaquete(Paquete paquete, PaqueteControlador controlador, PaquetesTabla tabla) {
         this.paquete = paquete;
         this.controlador = controlador;
+        this.tabla=tabla;
+        
 
         setTitle("Editar Paquete");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -46,22 +54,36 @@ public class EditarPaquete extends JFrame {
         contentPane.add(tipo_turismoField);
 
         contentPane.add(new JLabel("Precio:"));
-        precioField = new JTextField(String.valueOf(paquete.getPrecio())); // Añadido el campo de texto para el precio
+        precioField = new JTextField(String.valueOf(paquete.getPrecio())); 
         contentPane.add(precioField);
 
+        contentPane.add(new JLabel("Destino:"));
+        destinoCombo = new JComboBox<>();
+        cargarDestinosEnCombo();
+        if (paquete.getDestino() != null) {
+            destinoCombo.setSelectedItem(paquete.getDestino().getNombre());
+        }
+        contentPane.add(destinoCombo);
 
 
         JButton btnGuardar = new JButton("Guardar");
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 guardarCambios();
-                PaquetesTabla paqueteTabla = new PaquetesTabla();
-                paqueteTabla.actualizarTabla();
+                dispose();
 
             }
         });
         contentPane.add(btnGuardar);
     }
+    private void cargarDestinosEnCombo() {
+        List<String> destinos = controlador.getNombresDestinos();
+        for (String nombre : destinos) {
+            destinoCombo.addItem(nombre);
+        }
+    }
+    
+    
 
     private void guardarCambios() {
 
@@ -69,18 +91,21 @@ public class EditarPaquete extends JFrame {
             String nombre = nombrePField.getText();
             String descripcion = descripcionField.getText();
             String tipoTurismo = tipo_turismoField.getText();
-            double precio = Double.parseDouble(precioField.getText()); // Conversión de texto a double
+            double precio = Double.parseDouble(precioField.getText()); 
 
             paquete.setNombreP(nombre);
             paquete.setDescripcion(descripcion);
             paquete.setTipo_turismo(tipoTurismo);
             paquete.setPrecio(precio);
-
-            controlador.updatePaquete(paquete);
+            
+     
+            controlador.updatePaquete(paquete);           
             JOptionPane.showMessageDialog(this, "Paquete actualizado correctamente");
+            tabla.actualizarTabla();
             dispose();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para el precio.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }

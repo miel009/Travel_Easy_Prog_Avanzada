@@ -33,8 +33,7 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 	            JOptionPane.showMessageDialog(null, "Debe seleccionar un destino válido para el paquete.");
 	            return;
 	        }
-
-	        // Verificar si el destino existe
+	 
 	        PreparedStatement destinoStatement = agregarP.prepareStatement(
 	            "SELECT id_destino FROM destinos WHERE nombre = ?"
 	        );
@@ -50,7 +49,7 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 	            return;
 	        }
 
-	        // Crear el paquete
+	        
 	        PreparedStatement paqueteStatement = agregarP.prepareStatement(
 	            "INSERT INTO paquetes_turisticos (nombreP, descripcion, tipo_turismo, precio, id_destino) VALUES (?, ?, ?, ?, ?)"
 	        );
@@ -70,7 +69,19 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 	    }
 	}
 
+	public Destino buscarDestinoPorNombre(String nombre) {
+	    
+	    List<Destino> todos = destinosControlador.listarDestinos();
+	    for (Destino d : todos) {
+	        if (d.getNombre().equalsIgnoreCase(nombre)) {
+	            return d;
+	        }
+	    }
+	    return null;
+	}
 	
+
+
 	public List<Paquete> listarPaquete() {
 		
 		
@@ -101,7 +112,6 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		}
 		return paquetes;
 		
-		// TODO Auto-generated method stub
 
 	}
 	
@@ -145,14 +155,14 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		try {
 			String sql = "UPDATE paquetes_turisticos SET nombreP = ?, descripcion = ?, tipo_turismo = ?, precio = ? WHERE id_paquete = ?";
 			PreparedStatement statement = agregarP.prepareStatement(sql);
-			
-			
-			statement.setString(1, paquete.getNombreP() );
+
+			statement.setString(1, paquete.getNombreP());
 			statement.setString(2, paquete.getDescripcion());
 			statement.setString(3, paquete.getTipo_turismo());
-			statement.setDouble(4, paquete.getPrecio());	
-			statement.setInt(5, paquete.getId_paquete()); //ID del destino
-		
+			statement.setDouble(4, paquete.getPrecio());
+
+			int destinoId = destinosControlador.getIdDestinoPorNombre(paquete.getDestino().getNombre());
+			statement.setInt(5, paquete.getId_paquete());
 
 		 
 			int rowsUpdated = statement.executeUpdate();
@@ -164,6 +174,22 @@ public class PaqueteControlador implements Mostrar_Paquetes {
 		}
 		
 	}
+	
+	public List<String> getNombresDestinos() {
+	    List<String> nombres = new ArrayList<>();
+	    try {
+	        String sql = "SELECT nombre FROM destinos";
+	        PreparedStatement ps = agregarP.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            nombres.add(rs.getString("nombre"));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return nombres;
+	}
+
 
 	public void deletePaquete(int id_paquete) {
 		// TODO Auto-generated method stub			

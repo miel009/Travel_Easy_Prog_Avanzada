@@ -28,7 +28,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 		try {
 			PreparedStatement statement = agregar
 					.prepareStatement("INSERT INTO destinos (nombre,descripcion,pais,zonaGeo,"
-							+ "recomendaciones,temporada_ideal,rango_edad,transporte,tipo_turismo,servicios_requeridos) VALUES (?,?,?,?,?,?,?,?,?)");
+							+ "recomendaciones,temporada_ideal,rango_edad,transporte,tipo_turismo) VALUES (?,?,?,?,?,?,?,?,?)");
 
 			statement.setString(1, destino.getNombre());
 			statement.setString(2, destino.getDescripcion());
@@ -72,7 +72,7 @@ public class DestinosControlador implements Mostrar_Destinos {
 			statement.setInt(7, destino.getRango_edad());
 			statement.setString(8, destino.getTransporte());
 			statement.setString(9, destino.getTipo_turismo());
-			statement.setInt(11, destino.getId_destino()); 
+			statement.setInt(10, destino.getId_destino()); 
 			
 
 			int rowsUpdated = statement.executeUpdate();
@@ -84,6 +84,16 @@ public class DestinosControlador implements Mostrar_Destinos {
 		}
 	}
 
+	public int getIdDestinoPorNombre(String nombre) {
+	    try (PreparedStatement stmt = agregar.prepareStatement("SELECT id_destino FROM destinos WHERE nombre = ?")) {
+	        stmt.setString(1, nombre);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) return rs.getInt("id_destino");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return -1;
+	}
 
 	public List<Destino> listarDestinos() {
 		
@@ -157,21 +167,27 @@ public class DestinosControlador implements Mostrar_Destinos {
 
 	
 	
-	public void deleteDestino(int id_destino) { 
-		
-		// funciona
-		try {
-			PreparedStatement statement = agregar.prepareStatement("DELETE FROM destinos WHERE id_destino = ?");
-			statement.setInt(1, id_destino);
+	
+	public void deleteDestino(int id_destino) {
+	    try {
+	        // Primero elimina los paquetes asociados al destino
+	        PreparedStatement deletePaquetes = agregar.prepareStatement("DELETE FROM paquetes_turisticos WHERE id_destino = ?");
+	        deletePaquetes.setInt(1, id_destino);
+	        deletePaquetes.executeUpdate();
 
-			int rowsDeleted = statement.executeUpdate();
-			if (rowsDeleted > 0) {
-				System.out.println("Destino eliminado exitosamente");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	        // Luego elimina el destino
+	        PreparedStatement deleteDestino = agregar.prepareStatement("DELETE FROM destinos WHERE id_destino = ?");
+	        deleteDestino.setInt(1, id_destino);
+	        int rowsDeleted = deleteDestino.executeUpdate();
+
+	        if (rowsDeleted > 0) {
+	            System.out.println("Destino eliminado exitosamente");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 
 	@Override

@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.PaqueteControlador;
+import Modelo.Destino;
 import Modelo.Paquete;
 
 import java.awt.event.ActionEvent;
@@ -27,9 +28,7 @@ public class PaquetesTabla extends JFrame {
  
     private JTextField filtrar;
 
-    /**
-     * Launch the application.
-     */
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -43,9 +42,7 @@ public class PaquetesTabla extends JFrame {
         });
     }
 
-    /**
-     * Create the frame.
-     */
+   
     
     public PaquetesTabla() {
     	 // Inicializar controlador y producto seleccionado
@@ -103,17 +100,19 @@ public class PaquetesTabla extends JFrame {
                         String descripcion = (String) table.getValueAt(selectedRow, 2);                                                           
                         String tipo_turismo = (String) table.getValueAt(selectedRow, 3);
                         double precio = (double) table.getValueAt(selectedRow, 4);
-                        int id_destino =(int) table.getValueAt(selectedRow, 5);
+                  
+                        String nombreDestino = (String) table.getValueAt(selectedRow, 5);
+                        Destino destino = controlador.buscarDestinoPorNombre(nombreDestino);
                         
                         
                         seleccionado = controlador.getPaqueteById(id_paquete);
-                        //mostrarImagen(seleccionado.getImagen());
+                        
                     }
                 }
             }
         });
 
-        // Botón para eliminar el producto seleccionado
+      
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(580, 346, 120, 30);
         contentPane.add(btnEliminar);
@@ -160,22 +159,20 @@ public class PaquetesTabla extends JFrame {
         contentPane.add(btnNuevo);
         btnNuevo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                EditarPaquete nuevoPaquete = new EditarPaquete(null, controlador);
+                EditarPaquete nuevoPaquete = new EditarPaquete(null, controlador, PaquetesTabla.this);
                 nuevoPaquete.setVisible(true);
             }
         });
         
         btnNewButton.setBounds(140, 347, 113, 28);
         contentPane.add(btnNewButton);
-        btnEditar.addActionListener(new ActionListener() {
+        btnEditar.addActionListener(new ActionListener() {   
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (seleccionado != null && seleccionado.getId_paquete() != 0) {
-                   EditarPaquete editarFrame = new EditarPaquete(seleccionado, controlador);
+                   EditarPaquete editarFrame = new EditarPaquete(seleccionado, controlador, PaquetesTabla.this);
                     editarFrame.setVisible(true);
-                    // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
-                    // new EditarProducto(seleccionado).setVisible(true);
-                    //JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
+             
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un producto");
                 }
@@ -185,28 +182,7 @@ public class PaquetesTabla extends JFrame {
     
     
 
-    public void actualizarTabla() {
-        // Limpiar el modelo de la tabla
-        model.setRowCount(0);
-
-        // Obtener la lista actualizada de productos
-       
-        List<Paquete> paquetes = controlador.listarPaquete();
-
-        // Agregar los datos al modelo
-        for (Paquete paquete : paquetes) {
-            model.addRow(new Object[]{
-            		paquete.getId_paquete(),
-            		paquete.getNombreP(),
-            		paquete.getDescripcion(),
-            		paquete.getTipo_turismo(),
-            		paquete.getPrecio(),
-            		paquete.getDestino()
-            		
-            	
-            });
-        }
-    }
+    
     private void Filtrar(String criterio) {
         // Limpiar el modelo de la tabla
         model.setRowCount(0);
@@ -223,6 +199,29 @@ public class PaquetesTabla extends JFrame {
         }
     }
 
+    
+    public void actualizarTabla() {
+        // Limpiar el modelo de la tabla
+        model.setRowCount(0);
+        seleccionado = null;
+
+        List<Paquete> paquetes = controlador.listarPaquete();
+
+        for (Paquete paquete : paquetes ) {
+            model.addRow(new Object[]{
+            		paquete.getId_paquete(),
+            		paquete.getNombreP(),
+            		paquete.getDescripcion(),
+            		paquete.getTipo_turismo(),
+            		paquete.getPrecio(),
+            		paquete.getDestino().getNombre()
+            
+            });
+        }
+    }
+    
+    
+    
     private void mostrarImagen(byte[] imagen) {
         if (imagen != null) {
             ImageIcon icon = new ImageIcon(imagen);

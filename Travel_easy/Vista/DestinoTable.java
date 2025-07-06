@@ -27,9 +27,6 @@ public class DestinoTable extends JFrame {
 
     private JTextField filtrar;
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -43,11 +40,8 @@ public class DestinoTable extends JFrame {
         });
     }
 
-    /**
-     * Create the frame.
-     */
+   
     public DestinoTable() {
-
 
 
         controlador = new DestinosControlador();
@@ -94,8 +88,7 @@ public class DestinoTable extends JFrame {
                         String recomendaciones = (String) table.getValueAt(selectedRow, 5);
                         String temporada_ideal = (String) table.getValueAt(selectedRow, 6);
                         int rango_edad = (int) table.getValueAt(selectedRow, 7);
-                        String transporte = (String) table.getValueAt(selectedRow, 8);
-                       // int cantidad = (int) table.getValueAt(selectedRow, 9); // Obtener la cantidad de productos
+                        String transporte = (String) table.getValueAt(selectedRow, 8);                      
                         String tipo_turismo = (String) table.getValueAt(selectedRow, 9);
                         seleccionado = controlador.getDestinoById(id_destino);
                         //mostrarImagen(seleccionado.getImagen());
@@ -104,14 +97,14 @@ public class DestinoTable extends JFrame {
             }
         });
 
-        // Botón para eliminar el producto seleccionado
+        // Botón para eliminar el destino seleccionado
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(539, 366, 120, 30);
         contentPane.add(btnEliminar);
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (seleccionado.getId_destino() != 0) {
+            	if (seleccionado != null && seleccionado.getId_destino() != 0) {
                     controlador.deleteDestino(seleccionado.getId_destino());
                     JOptionPane.showMessageDialog(null, "Destino eliminado");
                     actualizarTabla();
@@ -158,16 +151,13 @@ public class DestinoTable extends JFrame {
         btnNewButton.setBounds(372, 366, 120, 30);
         contentPane.add(btnNewButton);
 
-        // Inicializar controlador y producto seleccionado
-
-        // boton atras
         JButton btnVolver = new JButton("Volver");
         btnVolver.setBounds(798, 366, 120, 30);
         contentPane.add(btnVolver);
         btnVolver.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Pantalla_2 pantalla2 = new Pantalla_2();
-                dispose(); // Cierra la ventana actual
+                dispose(); 
             }
         });
         btnEditar.addActionListener(new ActionListener() {
@@ -175,11 +165,7 @@ public class DestinoTable extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (seleccionado != null && seleccionado.getId_destino() != 0) {
                     EditarDestinoFrame editarFrame = new EditarDestinoFrame(seleccionado, controlador, DestinoTable.this);
-                    editarFrame.setVisible(true);
-
-                    // Aquí puedes llamar a tu ventana de edición, pasando el producto seleccionado
-                    // new EditarProducto(seleccionado).setVisible(true);
-                    JOptionPane.showMessageDialog(null, "Funcionalidad de editar aún no implementada");
+                    editarFrame.setVisible(true);                
                 } else {
                     JOptionPane.showMessageDialog(null, "Seleccione un producto");
                 }
@@ -188,10 +174,9 @@ public class DestinoTable extends JFrame {
     }
 
     public void actualizarTabla() {
-        // Limpiar el modelo de la tabla
+     
         model.setRowCount(0);
-
-        // Obtener la lista actualizada de productos
+        seleccionado = null;
 
         List<Destino> destinos = controlador.listarDestinos();
 
@@ -212,7 +197,7 @@ public class DestinoTable extends JFrame {
         }
     }
     public void Filtrar(String criterio) {
-        // Limpiar el modelo de la tabla
+        
         model.setRowCount(0);
 
         // Obtener la lista actualizada de productos
