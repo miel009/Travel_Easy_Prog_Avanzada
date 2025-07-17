@@ -135,23 +135,8 @@ public class PaquetesTabla extends JFrame {
         btnEditar.setBounds(418, 346, 120, 30);
         contentPane.add(btnEditar);
         
-        filtrar = new JTextField();
-        filtrar.setBounds(25, 349, 101, 25);
-        contentPane.add(filtrar);
-        filtrar.setColumns(10);
-        
-        JLabel lblNewLabel = new JLabel("Criterio");
-        lblNewLabel.setBounds(27, 324, 62, 14);
-        contentPane.add(lblNewLabel);
-        
-        JButton btnNewButton = new JButton("Filtrar");
-        btnNewButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		Filtrar(filtrar.getText());
-        		
-        	}
-        });
+       
+       
         
      
         JButton btnNuevo = new JButton("Nuevo");
@@ -187,8 +172,7 @@ public class PaquetesTabla extends JFrame {
 
 
         
-        btnNewButton.setBounds(140, 347, 113, 28);
-        contentPane.add(btnNewButton);
+      
         btnEditar.addActionListener(new ActionListener() {   
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -205,20 +189,6 @@ public class PaquetesTabla extends JFrame {
     
     
 
-    
-    private void Filtrar(String criterio) {
-        
-        model.setRowCount(0);
-        List<Paquete> paquetes = controlador.listarPaquete();
-
-        
-        for (Paquete paquete : paquetes) {
-        	if(paquete.getNombreP().contains(criterio)) {
-                model.addRow(new Object[]{paquete.getId_paquete(), paquete.getNombreP(), paquete.getDescripcion(),
-                		paquete.getTipo_turismo(), paquete.getPrecio(), paquete.getDestino()});
-        	}
-        }
-    }
 
     
     public void actualizarTabla() {

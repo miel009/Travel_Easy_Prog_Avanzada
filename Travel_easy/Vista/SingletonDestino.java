@@ -27,5 +27,5 @@ public class SingletonDestino {
 	public static LinkedList<Destino> MostrarDestinos_G(){
 		return destino_g;
 	} // MUESTRA TODOS LOS DESTINOS QUE OFRECE LA AGENCIA DE VIAJES
-	 // Agregar destinos en la clase destinos -- HACER una sobre carga.
+	 
 }
