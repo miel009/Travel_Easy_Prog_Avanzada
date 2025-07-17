@@ -85,15 +85,6 @@ public class Pantalla_2 extends JFrame {
 		opciones_para_tabla.setBounds(238, 87, 209, 26);
 		contentPane.add(opciones_para_tabla);
 		
-		JButton btnHacerReserva = new JButton("Hacer una reserva");
-		btnHacerReserva.setBounds(238, 291, 140, 41); // Ajusta ubicación y tamaño según tu diseño
-		contentPane.add(btnHacerReserva);
-
-		btnHacerReserva.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        Reserva reserva = new Reserva();
-		        reserva.setVisible(true);
-		    }
-		});
+		
 	}
 }

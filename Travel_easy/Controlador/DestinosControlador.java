@@ -44,12 +44,12 @@ public class DestinosControlador implements Mostrar_Destinos {
 			int rowsInserted = statement.executeUpdate();
 			if (rowsInserted > 0) {
 				
-			JOptionPane.showMessageDialog(null, "Destino insertado exitosamente");
+			
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error, destino NO insertado");
+			
 			
 			return false;
 		}

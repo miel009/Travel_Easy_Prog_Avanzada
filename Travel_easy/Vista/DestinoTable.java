@@ -52,28 +52,28 @@ public class DestinoTable extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        // Crear la tabla y el modelo
+        
         String[] columnNames = {"id_destino", "Nombre", "descripcion", "pais","ZonaGeo", "recomendaciones", "temporada_ideal", "rango_edad" ,"transporte", "tipo_turismo"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         actualizarTabla();
         contentPane.setLayout(null);
 
-        // Crear el JScrollPane y agregar la tabla
+        
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(5, 5, 1137, 300);
         contentPane.add(scrollPane);
 
-        // Crear el JLabel para mostrar la imagen
+        
         imagenLabel = new JLabel();
         imagenLabel.setBounds(620, 5, 250, 250);
         contentPane.add(imagenLabel);
 
-        // Configurar el modelo de selección
+        
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Agregar un escuchador de selección
+        
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -97,7 +97,7 @@ public class DestinoTable extends JFrame {
             }
         });
 
-        // Botón para eliminar el destino seleccionado
+        
         JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setBounds(539, 366, 120, 30);
         contentPane.add(btnEliminar);
@@ -114,7 +114,7 @@ public class DestinoTable extends JFrame {
                 }
             }
         });
-        // Botón Deshacer Filtros por id
+        
         JButton btnDeshacerFiltros = new JButton("Deshacer Filtros");
         btnDeshacerFiltros.setBounds(372, 406, 120, 30);
         contentPane.add(btnDeshacerFiltros);
@@ -125,7 +125,7 @@ public class DestinoTable extends JFrame {
             }
         });
 
-        // Botón para editar el producto seleccionado
+       
         JButton btnEditar = new JButton("Editar");
         btnEditar.setBounds(669, 366, 120, 30);
         contentPane.add(btnEditar);
@@ -180,7 +180,7 @@ public class DestinoTable extends JFrame {
 
         List<Destino> destinos = controlador.listarDestinos();
 
-        // Agregar los datos al modelo
+        
         for (Destino destino : destinos) {
             model.addRow(new Object[]{
             		destino.getId_destino(),
@@ -200,10 +200,10 @@ public class DestinoTable extends JFrame {
         
         model.setRowCount(0);
 
-        // Obtener la lista actualizada de productos
+        
         List<Destino> destinos = controlador.listarDestinos();
 
-        // Agregar los datos al modelo
+        
         for (Destino destino : destinos ) {
         	if(destino.getNombre().contains(criterio)) {
                 model.addRow(new Object[]{destino.getId_destino(), destino.getNombre(), destino.getDescripcion(),
@@ -212,13 +212,12 @@ public class DestinoTable extends JFrame {
         }
     }
     public void filtrarPorId(Integer id) {
-        // Limpiar el modelo de la tabla
+        
         model.setRowCount(0);
 
-        // Obtener la lista actualizada de destinos
+       
         List<Destino> destinos = controlador.listarDestinos();
 
-        // Agregar los datos al modelo
         for (Destino destino : destinos) {
             boolean coincideId = id == null || destino.getId_destino() == id;
 
@@ -238,7 +237,20 @@ public class DestinoTable extends JFrame {
                 });
             }
         }
+        
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(409, 326, 120, 30);
+        contentPane.add(btnAgregar);
+
+        btnAgregar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AgregarDestinoFrame agregarFrame = new AgregarDestinoFrame(DestinoTable.this, controlador);
+                agregarFrame.setVisible(true);
+            }
+        });
+
     }
+    
 
     private void mostrarImagen(byte[] imagen) {
         if (imagen != null) {

@@ -66,9 +66,10 @@ public class Paquete {
 	public Destino getDestino() {
 		return id_destino;
 	}
-	public void setDestino(int id_destino) {
-		this.id_destino = new Destino();
+	public void setDestino(Destino destino) {
+	    this.id_destino = destino;
 	}
+
 	@Override
 	public String toString() {
 	    return "Paquete:\n" +
@@ -106,6 +107,10 @@ public class Paquete {
             }
         }
     }
+	public void setDestino(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 	

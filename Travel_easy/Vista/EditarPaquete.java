@@ -28,7 +28,7 @@ public class EditarPaquete extends JFrame {
     
 
     public EditarPaquete(Paquete paquete, PaqueteControlador controlador, PaquetesTabla tabla) {
-        this.paquete = paquete;
+    	this.paquete = (paquete == null) ? new Paquete() : paquete;
         this.controlador = controlador;
         this.tabla=tabla;
         
@@ -41,27 +41,29 @@ public class EditarPaquete extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(new GridLayout(11, 2, 5, 5));
 
+
         contentPane.add(new JLabel("Nombre:"));
-        nombrePField = new JTextField(paquete.getNombreP());
+        nombrePField = new JTextField(this.paquete.getNombreP() != null ? this.paquete.getNombreP() : "");
         contentPane.add(nombrePField);
 
         contentPane.add(new JLabel("Descripción:"));
-        descripcionField = new JTextField(paquete.getDescripcion());
+        descripcionField = new JTextField(this.paquete.getDescripcion() != null ? this.paquete.getDescripcion() : "");
         contentPane.add(descripcionField);
 
         contentPane.add(new JLabel("Tipo de turismo:"));
-        tipo_turismoField = new JTextField(paquete.getTipo_turismo());
+        tipo_turismoField = new JTextField(this.paquete.getTipo_turismo() != null ? this.paquete.getTipo_turismo() : "");
         contentPane.add(tipo_turismoField);
 
         contentPane.add(new JLabel("Precio:"));
-        precioField = new JTextField(String.valueOf(paquete.getPrecio())); 
+        precioField = new JTextField(String.valueOf(this.paquete.getPrecio())); 
         contentPane.add(precioField);
+
 
         contentPane.add(new JLabel("Destino:"));
         destinoCombo = new JComboBox<>();
         cargarDestinosEnCombo();
-        if (paquete.getDestino() != null) {
-            destinoCombo.setSelectedItem(paquete.getDestino().getNombre());
+        if (this.paquete.getDestino() != null) {
+            destinoCombo.setSelectedItem(this.paquete.getDestino().getNombre());
         }
         contentPane.add(destinoCombo);
 
@@ -83,29 +85,37 @@ public class EditarPaquete extends JFrame {
         }
     }
     
-    
+
+
 
     private void guardarCambios() {
-
         try {
             String nombre = nombrePField.getText();
             String descripcion = descripcionField.getText();
             String tipoTurismo = tipo_turismoField.getText();
-            double precio = Double.parseDouble(precioField.getText()); 
+            double precio = Double.parseDouble(precioField.getText());
+            String destinoNombre = (String) destinoCombo.getSelectedItem();
 
             paquete.setNombreP(nombre);
             paquete.setDescripcion(descripcion);
             paquete.setTipo_turismo(tipoTurismo);
             paquete.setPrecio(precio);
-            
-     
-            controlador.updatePaquete(paquete);           
-            JOptionPane.showMessageDialog(this, "Paquete actualizado correctamente");
+
+            // Este es el fix del destino:
+            paquete.setDestino(controlador.buscarDestinoPorNombre(destinoNombre));
+
+            if (paquete.getId_paquete() == 0) {
+                controlador.addPaquete(paquete); // <-- INSERT
+                JOptionPane.showMessageDialog(this, "Paquete agregado correctamente");
+            } else {
+                controlador.updatePaquete(paquete); // <-- UPDATE
+                JOptionPane.showMessageDialog(this, "Paquete actualizado correctamente");
+            }
+
             tabla.actualizarTabla();
             dispose();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para el precio.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 }

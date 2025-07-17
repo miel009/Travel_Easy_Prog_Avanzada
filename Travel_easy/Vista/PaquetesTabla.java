@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import Controlador.PaqueteControlador;
+import Controlador.ReservaControlador;
 import Modelo.Destino;
 import Modelo.Paquete;
 
@@ -45,7 +46,6 @@ public class PaquetesTabla extends JFrame {
    
     
     public PaquetesTabla() {
-    	 // Inicializar controlador y producto seleccionado
         
         controlador = new PaqueteControlador();
         this.setVisible(true);
@@ -55,39 +55,39 @@ public class PaquetesTabla extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        // atras 
+        
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Pantalla_2 pantalla2 = new Pantalla_2();
-                dispose(); // Cierra la ventana actual
+                dispose(); 
             }
         });
         btnVolver.setBounds(955, 346, 128, 30);
         contentPane.add(btnVolver);
 
-        // Crear la tabla y el modelo
+       
         String[] columnNames = {"id_paquete", "nombre" , "Descripcion", "Tipo de turismo","Precio", "id_destino"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         actualizarTabla();
         contentPane.setLayout(null);
 
-        // Crear el JScrollPane y agregar la tabla
+        
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(5, 5, 1137, 300);
         contentPane.add(scrollPane);
 
-        // Crear el JLabel para mostrar la imagen
+        
         imagenLabel = new JLabel();
         imagenLabel.setBounds(620, 5, 250, 250);
         contentPane.add(imagenLabel);
 
-        // Configurar el modelo de selección
+        
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Agregar un escuchador de selección
+       
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -114,7 +114,7 @@ public class PaquetesTabla extends JFrame {
 
       
         JButton btnEliminar = new JButton("Eliminar");
-        btnEliminar.setBounds(580, 346, 120, 30);
+        btnEliminar.setBounds(555, 346, 120, 30);
         contentPane.add(btnEliminar);
         btnEliminar.addActionListener(new ActionListener() {
             @Override
@@ -130,9 +130,9 @@ public class PaquetesTabla extends JFrame {
             }
         });
 
-        // Botón para editar el producto seleccionado
+      
         JButton btnEditar = new JButton("Editar");
-        btnEditar.setBounds(428, 346, 120, 30);
+        btnEditar.setBounds(418, 346, 120, 30);
         contentPane.add(btnEditar);
         
         filtrar = new JTextField();
@@ -153,9 +153,9 @@ public class PaquetesTabla extends JFrame {
         	}
         });
         
-     // Botón para agregar nuevo paquete
+     
         JButton btnNuevo = new JButton("Nuevo");
-        btnNuevo.setBounds(288, 346, 120, 30);
+        btnNuevo.setBounds(273, 346, 120, 30);
         contentPane.add(btnNuevo);
         btnNuevo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -163,6 +163,29 @@ public class PaquetesTabla extends JFrame {
                 nuevoPaquete.setVisible(true);
             }
         });
+        
+        JButton btnReservar = new JButton("Reservar");
+        btnReservar.setBounds(696, 346, 120, 30);
+        contentPane.add(btnReservar);
+
+        btnReservar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = table.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                	Paquete paquete = controlador.listarPaquete().get(filaSeleccionada);
+
+                    ReservaControlador reservaControlador = new ReservaControlador();
+                    ReservaForm reservaForm = new ReservaForm(paquete, reservaControlador);
+                    reservaForm.setVisible(true);
+
+                    reservaForm.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione un paquete para reservar.");
+                }
+            }
+        });
+
+
         
         btnNewButton.setBounds(140, 347, 113, 28);
         contentPane.add(btnNewButton);
@@ -184,13 +207,11 @@ public class PaquetesTabla extends JFrame {
 
     
     private void Filtrar(String criterio) {
-        // Limpiar el modelo de la tabla
+        
         model.setRowCount(0);
-
-        // Obtener la lista actualizada de productos
         List<Paquete> paquetes = controlador.listarPaquete();
 
-        // Agregar los datos al modelo
+        
         for (Paquete paquete : paquetes) {
         	if(paquete.getNombreP().contains(criterio)) {
                 model.addRow(new Object[]{paquete.getId_paquete(), paquete.getNombreP(), paquete.getDescripcion(),
@@ -201,7 +222,7 @@ public class PaquetesTabla extends JFrame {
 
     
     public void actualizarTabla() {
-        // Limpiar el modelo de la tabla
+        
         model.setRowCount(0);
         seleccionado = null;
 

@@ -1,6 +1,7 @@
 package Controlador;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,16 +14,22 @@ import java.sql.Connection;
 import Interfaces.Mostrar_Paquetes;
 import Modelo.Destino;
 import Modelo.Paquete;
+import Modelo.Reserva;
+import Controlador.ReservaControlador;
+
 
 public class PaqueteControlador implements Mostrar_Paquetes {
 	
 	private final Connection agregarP;
 	private final DestinosControlador destinosControlador;
+	private final ReservaControlador reservaControlador;
+
 
 	
 	public PaqueteControlador() {
         this.agregarP = DatabaseConnection.getInstance().getConnection();
         this.destinosControlador = new DestinosControlador();
+        this.reservaControlador = new ReservaControlador();
     }
 	
 	public void addPaquete(Paquete paquete) {
